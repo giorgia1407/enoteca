@@ -1,0 +1,528 @@
+@import "tailwindcss";
+
+/*
+ * DESIGN TOKENS — Tailwind v4 @theme.
+ * Indigo-first palette, orange accents, green CTA, red urgency accents.
+ * NO BLACK ANYWHERE: every shadow is indigo- or green-tinted.
+ */
+@theme {
+  /* Colors */
+  --color-indigo: #3f3d8c;
+  --color-indigo-bold: #1e1b4b;
+  --color-light-indigo: #2d2a6e;
+  --color-muted-indigo: #4a4783;
+  --color-orange: #ff6b2c;
+  --color-soft-orange: #ffb088;
+  --color-cream: #fff8f2;
+  --color-green: #22c55e;
+  --color-emerald: #10b981;
+  --color-emerald-light: #6ee7b7;
+  --color-red: #dc2626;
+  --color-red-light: #fca5a5;
+  --color-rose: #f43f5e;
+
+  /* Fonts — resolved from next/font CSS variables set on <html> */
+  --font-heading: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Curry & Spice brand tokens ----
+   * A distinct warm Indian palette, deliberately separate from the indigo
+   * brand above so the restaurant reads as its own product. Only used inside
+   * the site. */
+  --color-curry-saffron: #c7401a;
+  --color-curry-saffron-dark: #a5330f;
+  --color-curry-cardamom: #4a6b4e;
+  --color-curry-cream: #fff8f0;
+  --color-curry-cream-deep: #f7ebdd;
+  --color-curry-charcoal: #2a2420;
+  --color-curry-charcoal-soft: #5a4f47;
+  --color-curry-gold: #e8a548;
+  --color-curry-rose: #f4c2c2;
+  /* Display serif (Playfair) + accent serif (Cormorant) — variables are set on
+   * <html> via next/font, so these fall back gracefully. */
+  --font-curry-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-curry-accent: var(--font-cormorant), Georgia, "Times New Roman", serif;
+
+  /* Shadows — indigo + green tints only, never any black-based shadow */
+  --shadow-indigo: 0 8px 30px rgba(63, 61, 140, 0.15);
+  --shadow-indigo-sm: 0 4px 16px rgba(63, 61, 140, 0.12);
+  --shadow-indigo-lg: 0 20px 50px rgba(63, 61, 140, 0.22);
+  --shadow-nav: 0 2px 12px rgba(63, 61, 140, 0.1);
+  --shadow-nav-strong: 0 8px 30px rgba(63, 61, 140, 0.16);
+  --shadow-cta: 0 12px 32px rgba(34, 197, 94, 0.45);
+  --shadow-cta-lg: 0 16px 44px rgba(34, 197, 94, 0.6);
+}
+
+/* Named gradients used across the page (text + backgrounds). */
+:root {
+  --gradient-hero: linear-gradient(135deg, #3f3d8c 0%, #ff6b2c 50%, #dc2626 100%);
+  --gradient-success: linear-gradient(135deg, #22c55e 0%, #10b981 50%, #3f3d8c 100%);
+  --gradient-urgency: linear-gradient(135deg, #ff6b2c 0%, #dc2626 50%, #f43f5e 100%);
+  --gradient-trust: linear-gradient(135deg, #3f3d8c 0%, #6361a8 100%);
+  --gradient-sunset: linear-gradient(135deg, #ff6b2c 0%, #ffb088 100%);
+  --gradient-emerald: linear-gradient(135deg, #22c55e 0%, #6ee7b7 100%);
+  --gradient-multi: linear-gradient(120deg, #3f3d8c 0%, #ff6b2c 35%, #dc2626 65%, #22c55e 100%);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Enforce the brand body color globally — deep bold indigo, never black. */
+  body {
+    color: #1e1b4b;
+    font-weight: 500;
+    background-color: #ffffff;
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Every anchored section clears the sticky nav on smooth scroll. */
+  section {
+    scroll-margin-top: 80px;
+  }
+
+  ::selection {
+    background-color: #ffb088;
+    color: #3f3d8c;
+  }
+
+  /* ---- Text-overflow safety net ----
+   * Headings wrap instead of overflowing their container. Italian compound
+   * words are ~20% longer than English, so they get a more aggressive break
+   * rule. Kept scoped to headings on purpose: a blanket `:lang(it) button`
+   * font-size override would shrink icon-only buttons and the carefully tuned
+   * demo CTAs, so per-component sizing is used there instead. */
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: break-word;
+  }
+  :lang(it) h1,
+  :lang(it) h2,
+  :lang(it) h3 {
+    overflow-wrap: anywhere;
+  }
+}
+
+@layer utilities {
+  /* ---- Gradient text ---- */
+  .text-gradient-hero,
+  .text-gradient-success,
+  .text-gradient-urgency,
+  .text-gradient-trust,
+  .text-gradient-sunset,
+  .text-gradient-emerald,
+  .text-gradient-multi,
+  .text-gradient-orange {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .text-gradient-hero {
+    background-image: var(--gradient-hero);
+  }
+  .text-gradient-success {
+    background-image: var(--gradient-success);
+  }
+  .text-gradient-urgency {
+    background-image: var(--gradient-urgency);
+  }
+  .text-gradient-trust {
+    background-image: var(--gradient-trust);
+  }
+  .text-gradient-sunset,
+  .text-gradient-orange {
+    background-image: var(--gradient-sunset);
+  }
+  .text-gradient-emerald {
+    background-image: var(--gradient-emerald);
+  }
+  .text-gradient-multi {
+    background-image: var(--gradient-multi);
+  }
+
+  /* ---- Gradient borders (padding-box trick keeps rounded corners) ---- */
+  .grad-border-sunset {
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+    background-image: linear-gradient(#ffffff, #ffffff), var(--gradient-sunset);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+  .grad-border-sunset-cream {
+    border: 2px solid transparent;
+    border-radius: 1rem;
+    background-image: linear-gradient(#fff8f2, #fff8f2), var(--gradient-sunset);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+  .grad-border-hero {
+    border: 3px solid transparent;
+    border-radius: 1rem;
+    background-image: linear-gradient(#ffffff, #ffffff), var(--gradient-hero);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  /* ---- Section divider ---- */
+  .section-divider {
+    height: 1px;
+    width: 60%;
+    margin-inline: auto;
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #ff6b2c 50%,
+      transparent 100%
+    );
+    opacity: 0.3;
+  }
+
+  /* Subtle orange glow reserved for CTA areas only. */
+  .cta-glow {
+    box-shadow:
+      0 0 0 1px rgba(255, 176, 136, 0.4),
+      0 18px 60px rgba(255, 107, 44, 0.18);
+  }
+
+  /* Animated FAQ accordion: grid-template-rows 0fr -> 1fr for a buttery open. */
+  .accordion-grid {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .accordion-grid[data-open="true"] {
+    grid-template-rows: 1fr;
+  }
+  .accordion-grid > .accordion-inner {
+    overflow: hidden;
+  }
+
+  /* ---- Continuous animations ---- */
+  .animate-blob {
+    animation: blobDrift 12s ease-in-out infinite;
+  }
+  .animate-blob-alt {
+    animation: blobDriftAlt 12s ease-in-out infinite;
+  }
+  .animate-glow-pulse {
+    animation: glowPulse 8s ease-in-out infinite;
+  }
+  .animate-shimmer {
+    animation: shimmerSweep 4s ease-in-out infinite;
+  }
+  .animate-breathe {
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  /* Blue "Experience Live Demo" CTA — slightly slower breathing than the green CTA. */
+  .animate-breathe-blue {
+    animation: breathe 2.8s ease-in-out infinite;
+  }
+  /* Dramatic "URGENT" badge — soft opacity pulse to draw the eye. */
+  .animate-urgent-pulse {
+    animation: urgentPulse 1.6s ease-in-out infinite;
+  }
+  .animate-marquee {
+    animation: marqueeScroll 60s linear infinite;
+  }
+  .animate-float-phone {
+    animation: floatPhone 4s ease-in-out infinite;
+  }
+  .animate-order-toast {
+    animation: orderToast 5s ease-in-out infinite;
+  }
+  .cta-ripple {
+    animation: ripple 600ms ease-out forwards;
+  }
+  /* One-time "tap me" affordance on the demo restaurant switcher (mobile). */
+  .animate-tap-hint {
+    animation: tapHint 1.4s ease-out 3;
+    opacity: 0;
+  }
+
+  /* ---- Curry & Spice motion utilities ---- */
+  /* Hide the scrollbar on horizontally-scrolling menu category tabs. */
+  .curry-no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .curry-no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Gentle bounce for the hero scroll-down indicator. */
+  .curry-scroll-bounce {
+    animation: curryScrollBounce 1.8s ease-in-out infinite;
+  }
+  /* CSS-only hero entrance — runs on load without waiting for JS/hydration, so
+   * the above-the-fold hero text paints fast (good LCP). Stagger via inline
+   * animation-delay. */
+  .curry-fade-up {
+    animation: curryFadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  /* Pure-CSS announcement ticker (mobile) — no JS interval overhead. The track
+   * holds two copies of the content and slides by -50% for a seamless loop. */
+  .curry-ticker {
+    animation: curryTicker 24s linear infinite;
+  }
+  /* Pure-CSS rotating-fade for the mobile announcement bar: four stacked items,
+   * each shown for a 4s slot of a 16s cycle via staggered animation-delay.
+   * `backwards` fill keeps items hidden (0% keyframe) during their delay so they
+   * don't all show stacked at load. */
+  .curry-rotate-item {
+    opacity: 0;
+    animation: curryAnnounceRotate 16s ease-in-out infinite backwards;
+  }
+  /* Pulsing saffron glow ring on the floating Bella button. */
+  .curry-bella-glow {
+    animation: curryBellaGlow 2.4s ease-in-out infinite;
+  }
+  /* "Bella is typing…" bouncing dots (stagger via inline animation-delay). */
+  .curry-typing-dot {
+    animation: curryTyping 1.2s ease-in-out infinite;
+  }
+  /* Gentle upward bounce for the "tap a star" hint arrow. */
+  .curry-bounce-up {
+    animation: curryBounceUp 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes curryBounceUp {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+
+@keyframes curryAnnounceRotate {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  3% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  22% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  25% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes curryBellaGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 10px 26px -6px rgba(199, 64, 26, 0.55),
+      0 0 0 0 rgba(232, 165, 72, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 12px 32px -4px rgba(199, 64, 26, 0.7),
+      0 0 0 12px rgba(232, 165, 72, 0);
+  }
+}
+
+@keyframes curryTyping {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes curryTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes curryFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes curryScrollBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.4;
+  }
+}
+
+@keyframes tapHint {
+  0% {
+    opacity: 0.7;
+    transform: translateY(-50%) scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) scale(1.7);
+  }
+}
+
+@keyframes blobDrift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 15px);
+  }
+}
+@keyframes blobDriftAlt {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-20px, -15px);
+  }
+}
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.18;
+  }
+}
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-160%) skewX(-20deg);
+  }
+  60%,
+  100% {
+    transform: translateX(260%) skewX(-20deg);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes floatPhone {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes orderToast {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  6% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  22% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  30%,
+  100% {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+@keyframes urgentPulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-blob,
+  .animate-blob-alt,
+  .animate-glow-pulse,
+  .animate-shimmer,
+  .animate-breathe,
+  .animate-breathe-blue,
+  .animate-urgent-pulse,
+  .animate-marquee,
+  .animate-float-phone,
+  .animate-order-toast,
+  .animate-tap-hint,
+  .curry-scroll-bounce,
+  .curry-fade-up,
+  .curry-ticker,
+  .curry-rotate-item,
+  .curry-bella-glow,
+  .curry-typing-dot,
+  .curry-bounce-up {
+    animation: none !important;
+  }
+  /* With motion reduced, keep only the first announcement item visible. */
+  .curry-rotate-item {
+    opacity: 0;
+  }
+  .curry-rotate-item:first-child {
+    opacity: 1;
+  }
+}
