@@ -5,6 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Wine, CategoryMeta } from "@/data/productData";
 import { facetsFor } from "@/data/productData";
+import {
+  denominationTier,
+  productType,
+  type DenominationTier,
+  type ProductType,
+} from "@/data/catalogFacets";
 import { formatEuro } from "@/lib/constants";
 import { useI18n } from "./i18n";
 import { ProductCard } from "./ProductCard";
@@ -19,24 +25,70 @@ function toggle<T>(set: Set<T>, value: T): Set<T> {
   return next;
 }
 
+/** Tier / type facets present in a set of wines (ordered, deduped). */
+const TIER_ORDER: DenominationTier[] = ["DOCG", "DOC", "IGT", "IGP"];
+const TYPE_ORDER: ProductType[] = ["Gin", "Vodka", "Rum", "Limoncello", "Amaro", "Grappa"];
+
 export function CategoryView({
   category,
   wines,
   initialRegion,
   initialGrape,
+  initialDenomination,
+  initialType,
 }: {
   category: CategoryMeta;
   wines: Wine[];
   initialRegion?: string;
   initialGrape?: string;
+  initialDenomination?: string;
+  initialType?: string;
 }) {
   const { t } = useI18n();
   const facets = useMemo(() => facetsFor(wines), [wines]);
 
+  // Derived facets that aren't stored literally on a product.
+  const tierFacets = useMemo(() => {
+    const present = new Set<DenominationTier>();
+    for (const w of wines) {
+      const tier = denominationTier(w);
+      if (tier) present.add(tier);
+    }
+    return TIER_ORDER.filter((tier) => present.has(tier));
+  }, [wines]);
+
+  const typeFacets = useMemo(() => {
+    const present = new Set<ProductType>();
+    for (const w of wines) {
+      const type = productType(w);
+      if (type) present.add(type);
+    }
+    return TYPE_ORDER.filter((type) => present.has(type));
+  }, [wines]);
+
+  const hasVintage = facets.vintages.length > 0;
+  const hasNovelty = useMemo(
+    () => wines.some((w) => w.badges?.includes("Novità")),
+    [wines],
+  );
+
   const [regions, setRegions] = useState<Set<string>>(
     new Set(initialRegion && facets.regions.includes(initialRegion) ? [initialRegion] : []),
   );
-  const [denoms, setDenoms] = useState<Set<string>>(new Set());
+  const [denoms, setDenoms] = useState<Set<DenominationTier>>(
+    new Set(
+      initialDenomination && tierFacets.includes(initialDenomination as DenominationTier)
+        ? [initialDenomination as DenominationTier]
+        : [],
+    ),
+  );
+  const [types, setTypes] = useState<Set<ProductType>>(
+    new Set(
+      initialType && typeFacets.includes(initialType as ProductType)
+        ? [initialType as ProductType]
+        : [],
+    ),
+  );
   const [grapes, setGrapes] = useState<Set<string>>(
     new Set(initialGrape && facets.grapes.includes(initialGrape) ? [initialGrape] : []),
   );
@@ -49,7 +101,14 @@ export function CategoryView({
   const filtered = useMemo(() => {
     const list = wines.filter((w) => {
       if (regions.size && (!w.region || !regions.has(w.region))) return false;
-      if (denoms.size && (!w.denomination || !denoms.has(w.denomination))) return false;
+      if (denoms.size) {
+        const tier = denominationTier(w);
+        if (!tier || !denoms.has(tier)) return false;
+      }
+      if (types.size) {
+        const type = productType(w);
+        if (!type || !types.has(type)) return false;
+      }
       if (grapes.size && !(w.grapeVarieties ?? []).some((g) => grapes.has(g))) return false;
       if (vintages.size && (!w.vintage || !vintages.has(w.vintage))) return false;
       if (w.price > maxPrice) return false;
@@ -82,11 +141,12 @@ export function CategoryView({
         sorted.sort((a, b) => Number(b.featured ?? false) - Number(a.featured ?? false));
     }
     return sorted;
-  }, [wines, regions, denoms, grapes, vintages, maxPrice, inStockOnly, sort]);
+  }, [wines, regions, denoms, types, grapes, vintages, maxPrice, inStockOnly, sort]);
 
   const resetFilters = () => {
     setRegions(new Set());
     setDenoms(new Set());
+    setTypes(new Set());
     setGrapes(new Set());
     setVintages(new Set());
     setMaxPrice(facets.maxPrice);
@@ -94,7 +154,13 @@ export function CategoryView({
   };
 
   const activeCount =
-    regions.size + denoms.size + grapes.size + vintages.size + (inStockOnly ? 1 : 0) + (maxPrice < facets.maxPrice ? 1 : 0);
+    regions.size +
+    denoms.size +
+    types.size +
+    grapes.size +
+    vintages.size +
+    (inStockOnly ? 1 : 0) +
+    (maxPrice < facets.maxPrice ? 1 : 0);
 
   const sidebar = (
     <div className="space-y-6">
@@ -125,15 +191,29 @@ export function CategoryView({
         </FilterGroup>
       )}
 
-      {facets.denominations.length > 1 && (
+      {tierFacets.length > 1 && (
         <FilterGroup title={t("cat.filter.denomination")}>
-          {facets.denominations.map((d) => (
+          {tierFacets.map((d) => (
             <CheckRow
               key={d}
               label={d}
-              count={wines.filter((w) => w.denomination === d).length}
+              count={wines.filter((w) => denominationTier(w) === d).length}
               checked={denoms.has(d)}
               onChange={() => setDenoms((s) => toggle(s, d))}
+            />
+          ))}
+        </FilterGroup>
+      )}
+
+      {typeFacets.length > 1 && (
+        <FilterGroup title={t("cat.filter.type")}>
+          {typeFacets.map((ty) => (
+            <CheckRow
+              key={ty}
+              label={ty}
+              count={wines.filter((w) => productType(w) === ty).length}
+              checked={types.has(ty)}
+              onChange={() => setTypes((s) => toggle(s, ty))}
             />
           ))}
         </FilterGroup>
@@ -268,8 +348,8 @@ export function CategoryView({
               <option value="priceAsc">{t("cat.sort.priceAsc")}</option>
               <option value="priceDesc">{t("cat.sort.priceDesc")}</option>
               <option value="name">{t("cat.sort.name")}</option>
-              <option value="vintage">{t("cat.sort.vintage")}</option>
-              <option value="novelty">{t("cat.sort.novelty")}</option>
+              {hasVintage && <option value="vintage">{t("cat.sort.vintage")}</option>}
+              {hasNovelty && <option value="novelty">{t("cat.sort.novelty")}</option>}
             </select>
           </label>
         </div>

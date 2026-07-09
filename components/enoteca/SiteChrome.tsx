@@ -21,6 +21,13 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { User, Search, Menu, X, ChevronDown, ShoppingBag } from "lucide-react";
 import { getWinesByCategory, type Wine, type WineCategory } from "@/data/productData";
+import {
+  buildNavItems,
+  navHrefs,
+  resolveNavCount,
+  type NavItem,
+  type NavMega,
+} from "@/data/catalogFacets";
 import { getWhatsAppUrl, formatEuro } from "@/lib/constants";
 import { useCart } from "./CartContext";
 import { useUI } from "./UIContext";
@@ -31,123 +38,15 @@ import { GoogleRatingPill } from "./GoogleReviews";
 import { BrandLogo } from "@/components/BrandLogo";
 import { BottleImage } from "./BottleImage";
 
-/* ---- Nav model ---- */
+/* ---- Nav model ----
+ * The entire nav (desktop mega-menu + mobile drawer) is BUILT from the real
+ * inventory in `data/catalogFacets.ts`. Every link is guaranteed to resolve to
+ * a populated destination — empty categories (vini-dolci, accessori) and
+ * absent filter values never render. See INVENTORY_AUDIT.md. Types come from
+ * catalogFacets (NavItem / NavMega).
+ */
 
-interface MenuColumn {
-  header: string;
-  links: { label: string; href: string }[];
-}
-
-interface MegaConfig {
-  /** Link columns (2–3) rendered left of the "In Evidenza" promo column. */
-  columns: MenuColumn[];
-  /** Category whose featured bottle fills the "In Evidenza" promo column. */
-  featuredCategory: WineCategory;
-}
-
-interface NavItem {
-  label: string;
-  href: string;
-  mega?: MegaConfig;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { label: "Chi Siamo", href: "/#chi-siamo" },
-  {
-    label: "Vini",
-    href: "/categoria/vini-rossi",
-    mega: {
-      featuredCategory: "vini-rossi",
-      columns: [
-        {
-          header: "Per Colore",
-          links: [
-            { label: "Vini Rossi", href: "/categoria/vini-rossi" },
-            { label: "Vini Bianchi", href: "/categoria/vini-bianchi" },
-            { label: "Rosati", href: "/categoria/rosati" },
-            { label: "Vini Dolci", href: "/categoria/vini-dolci" },
-          ],
-        },
-        {
-          header: "Per Regione",
-          links: [
-            { label: "Toscana", href: "/categoria/vini-rossi?regione=Toscana" },
-            { label: "Piemonte", href: "/categoria/vini-rossi?regione=Piemonte" },
-            { label: "Veneto", href: "/categoria/vini-bianchi?regione=Veneto" },
-            { label: "Sicilia", href: "/categoria/vini-rossi?regione=Sicilia" },
-            { label: "Puglia", href: "/categoria/vini-rossi?regione=Puglia" },
-          ],
-        },
-        {
-          header: "Denominazione",
-          links: [
-            { label: "DOCG", href: "/categoria/vini-rossi?denominazione=DOCG" },
-            { label: "DOC", href: "/categoria/vini-rossi?denominazione=DOC" },
-            { label: "IGT", href: "/categoria/vini-rossi?denominazione=IGT" },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    label: "Bollicine",
-    href: "/categoria/bollicine",
-    mega: {
-      featuredCategory: "bollicine",
-      columns: [
-        {
-          header: "Tipologia",
-          links: [
-            { label: "Prosecco", href: "/categoria/bollicine?subcategoria=prosecco" },
-            { label: "Champagne", href: "/categoria/bollicine?subcategoria=champagne" },
-            { label: "Franciacorta", href: "/categoria/bollicine?subcategoria=franciacorta" },
-            { label: "Spumanti Metodo Classico", href: "/categoria/bollicine?subcategoria=metodo-classico" },
-            { label: "Trentodoc", href: "/categoria/bollicine?subcategoria=trentodoc" },
-          ],
-        },
-        {
-          header: "Occasioni",
-          links: [
-            { label: "Aperitivo", href: "/categoria/bollicine?occasione=aperitivo" },
-            { label: "Regali", href: "/categoria/bollicine?occasione=regali" },
-            { label: "Grandi eventi", href: "/categoria/bollicine?occasione=grandi-eventi" },
-            { label: "Anniversari", href: "/categoria/bollicine?occasione=anniversari" },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    label: "Distillati",
-    href: "/categoria/distillati",
-    mega: {
-      featuredCategory: "distillati",
-      columns: [
-        {
-          header: "Spiriti",
-          links: [
-            { label: "Whisky", href: "/categoria/distillati?tipo=whisky" },
-            { label: "Gin", href: "/categoria/distillati?tipo=gin" },
-            { label: "Rum", href: "/categoria/distillati?tipo=rum" },
-            { label: "Vodka", href: "/categoria/distillati?tipo=vodka" },
-            { label: "Cognac", href: "/categoria/distillati?tipo=cognac" },
-          ],
-        },
-        {
-          header: "Italiani",
-          links: [
-            { label: "Grappa", href: "/categoria/distillati?tipo=grappa" },
-            { label: "Amaro", href: "/categoria/distillati?tipo=amaro" },
-            { label: "Limoncello", href: "/categoria/distillati?tipo=limoncello" },
-            { label: "Sambuca", href: "/categoria/distillati?tipo=sambuca" },
-          ],
-        },
-      ],
-    },
-  },
-  { label: "Accessori", href: "/categoria/accessori" },
-  { label: "Contatti", href: "/#contatti" },
-];
+const NAV_ITEMS: NavItem[] = buildNavItems();
 
 /** The featured bottle for a mega-menu promo column (first featured, else first). */
 function featuredIn(category: WineCategory): Wine | undefined {
@@ -287,7 +186,7 @@ function FeaturedCard({ wine, onClick }: { wine: Wine; onClick?: () => void }) {
 
 /* ---- Desktop mega-menu panel ---- */
 
-function MegaPanel({ mega, onNavigate }: { mega: MegaConfig; onNavigate: () => void }) {
+function MegaPanel({ mega, onNavigate }: { mega: NavMega; onNavigate: () => void }) {
   const featured = featuredIn(mega.featuredCategory);
   return (
     <div className="mx-auto max-w-[1280px] px-[60px] py-10">
@@ -382,6 +281,19 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
   // Tidy any pending open/close timers on unmount.
   useEffect(() => clearTimers, [clearTimers]);
+
+  // Dev-only integrity check: warn if any nav link resolves to 0 products.
+  // The nav is data-built so this should never fire — it's a guard for future
+  // edits to productData or catalogFacets.
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    for (const href of navHrefs(NAV_ITEMS)) {
+      const count = resolveNavCount(href);
+      if (count === 0) {
+        console.warn(`[nav-audit] "${href}" resolves to 0 products — dead nav link.`);
+      }
+    }
+  }, []);
 
   const activeItem = NAV_ITEMS.find((n) => n.label === openLabel && n.mega);
 

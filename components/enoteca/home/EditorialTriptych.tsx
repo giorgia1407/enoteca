@@ -5,22 +5,22 @@ import { BottleImage } from "../BottleImage";
 /** Section 9 — 3 large editorial photo tiles with italic serif titles. */
 const TILES = [
   {
-    title: "I Nostri Store",
-    copy: "Vieni a trovarci in enoteca: scaffali curati, consigli su misura e una cantina sempre in evoluzione.",
-    image: ATMOSPHERE.shelf,
-    href: "/#store",
-    alt: "Scaffali di bottiglie in enoteca",
+    title: "La Nostra Cantina",
+    copy: "Nel cuore di Roma, tra Trionfale e Boccea, ogni etichetta è scelta a mano e raccontata. Una cantina curata dove trovare il vino giusto — dal quotidiano alla bottiglia da regalare.",
+    image: ATMOSPHERE.cellar,
+    href: "/chi-siamo",
+    alt: "Cantina con bottiglie in fila",
   },
   {
-    title: "Eventi in Cantina",
-    copy: "Degustazioni guidate, serate a tema e incontri con i produttori. Il vino diventa esperienza.",
+    title: "Degustazioni",
+    copy: "Serate a tema, calici in compagnia e incontri con chi il vino lo fa: le nostre degustazioni sono in arrivo. Scrivici per restare aggiornato sulle prossime date.",
     image: ATMOSPHERE.tasting,
-    href: "/#store",
+    href: "/contatti",
     alt: "Degustazione di vino con taglieri",
   },
   {
-    title: "Distillati",
-    copy: "Grappe, whisky, rum e cognac d'autore: una selezione da meditazione per intenditori.",
+    title: "Spirits & Distillati",
+    copy: "Oltre trenta distillati d'autore: gin botanici, rum invecchiati, vodka e brandy da meditazione. La nostra selezione più ampia, tutta da esplorare.",
     image: ATMOSPHERE.amber,
     href: "/categoria/distillati",
     alt: "Bicchiere di distillato ambrato",

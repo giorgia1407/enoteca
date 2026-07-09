@@ -3,15 +3,35 @@ import { SHOP_INFO, getWhatsAppUrl } from "@/lib/constants";
 
 /** Section 13 — 3-column footer (Servizio Clienti / Informazioni / Supporto). */
 
-const INFORMAZIONI = [
-  "Chi siamo", "Punti vendita", "La nostra selezione", "Eventi e degustazioni",
-  "Idee regalo", "Lavora con noi", "Blog del vino",
+/**
+ * Footer link lists. Items with a real route link there; the rest are Phase-2
+ * placeholders that intentionally render as non-navigating "#" (see the TODO in
+ * the render). Convert a placeholder the moment its page ships.
+ */
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
+const INFORMAZIONI: FooterLink[] = [
+  { label: "Chi siamo", href: "/chi-siamo" },
+  { label: "La nostra selezione", href: "/categoria/vini-rossi" },
+  { label: "Distillati", href: "/categoria/distillati" },
+  // TODO Phase 2: link to real pages when Sarang builds these.
+  { label: "Punti vendita", href: "#" },
+  { label: "Eventi e degustazioni", href: "#" },
+  { label: "Idee regalo", href: "#" },
+  { label: "Lavora con noi", href: "#" },
 ];
 
-const SUPPORTO = [
-  "Contatti", "Domande Frequenti (FAQ)", "Costi e tempi di spedizione",
-  "Condizioni di vendita", "Condizioni di utilizzo del sito",
-  "Privacy e Cookies",
+const SUPPORTO: FooterLink[] = [
+  { label: "Contatti", href: "/contatti" },
+  // TODO Phase 2: link to real pages when Sarang builds these.
+  { label: "Domande Frequenti (FAQ)", href: "#" },
+  { label: "Costi e tempi di spedizione", href: "#" },
+  { label: "Condizioni di vendita", href: "#" },
+  { label: "Condizioni di utilizzo del sito", href: "#" },
+  { label: "Privacy e Cookies", href: "#" },
 ];
 
 export function Footer3Column() {
@@ -77,9 +97,12 @@ export function Footer3Column() {
           <h3 className="text-[15px] font-bold text-text">Informazioni</h3>
           <ul className="mt-3 space-y-1.5 text-[13px]">
             {INFORMAZIONI.map((l) => (
-              <li key={l}>
-                <Link href="#" className="text-text-muted transition-colors hover:text-primary-hover">
-                  {l}
+              <li key={l.label}>
+                <Link
+                  href={l.href}
+                  className="text-text-muted transition-colors hover:text-primary-hover"
+                >
+                  {l.label}
                 </Link>
               </li>
             ))}
@@ -91,9 +114,12 @@ export function Footer3Column() {
           <h3 className="text-[15px] font-bold text-text">Supporto clienti</h3>
           <ul className="mt-3 space-y-1.5 text-[13px]">
             {SUPPORTO.map((l) => (
-              <li key={l}>
-                <Link href="#" className="text-text-muted transition-colors hover:text-primary-hover">
-                  {l}
+              <li key={l.label}>
+                <Link
+                  href={l.href}
+                  className="text-text-muted transition-colors hover:text-primary-hover"
+                >
+                  {l.label}
                 </Link>
               </li>
             ))}
