@@ -43,3 +43,6 @@ next-env.d.ts
 # Design reference material (not for commit)
 Doreca/
 DORECA_ANALYSIS.md
+
+# Client raw inventory photos (source of truth — not for git)
+Wine-Shop-Roma/
