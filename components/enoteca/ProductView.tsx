@@ -108,7 +108,7 @@ export function ProductView({
             )}
             <BottleImage
               src={gallery[active]}
-              alt={`${wine.name} — ${wine.producer}`}
+              alt={active === 0 ? (wine.alt || `${wine.name} — ${wine.producer}`) : `${category.label} — ${wine.name}`}
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
               className="object-cover transition-transform duration-500 group-hover:scale-105"

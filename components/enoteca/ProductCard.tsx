@@ -102,7 +102,7 @@ export function ProductCard({
         )}
         <BottleImage
           src={wine.image}
-          alt={`${wine.name} — ${wine.producer}`}
+          alt={wine.alt || `${wine.name} — ${wine.producer}`}
           sizes="(max-width: 640px) 60vw, 260px"
           priority={priority}
           className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
