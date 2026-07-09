@@ -2,66 +2,72 @@
 
 /*
  * DESIGN TOKENS — Tailwind v4 @theme.
- * Indigo-first palette, orange accents, green CTA, red urgency accents.
- * NO BLACK ANYWHERE: every shadow is indigo- or green-tinted.
+ * Enoteca palette extracted + elevated from the Doreca reference:
+ *   - Doreca reads as clean white + charcoal text + a mustard-gold commerce
+ *     accent (CTAs, prices, sale ribbons). We keep that gold as the action /
+ *     price accent, but lead with a deep Italian bordeaux for the brand,
+ *     which reads far more "enoteca" (premium wine merchant) than Doreca's
+ *     mass-market wholesale yellow-on-white.
+ *   - Warm cream background instead of cold grey.
+ *   - Warm charcoal text — NEVER pure black (brand rule).
+ * Hex choices are documented in /DORECA_ANALYSIS.md.
  */
 @theme {
-  /* Colors */
-  --color-indigo: #3f3d8c;
-  --color-indigo-bold: #1e1b4b;
-  --color-light-indigo: #2d2a6e;
-  --color-muted-indigo: #4a4783;
-  --color-orange: #ff6b2c;
-  --color-soft-orange: #ffb088;
-  --color-cream: #fff8f2;
-  --color-green: #22c55e;
-  --color-emerald: #10b981;
-  --color-emerald-light: #6ee7b7;
-  --color-red: #dc2626;
-  --color-red-light: #fca5a5;
-  --color-rose: #f43f5e;
+  /* ============================================================
+   * DORECA PALETTE — white background + warm mustard/gold accent.
+   * (Rebrand from the earlier bordeaux identity; no wine-red remains.)
+   * These are the canonical Doreca tokens named per the brief.
+   * ============================================================ */
+  --color-bg: #ffffff;            /* pure white — Doreca page background       */
+  --color-surface: #f7f7f5;       /* subtle light grey — footer/hover/utility  */
+  --color-text: #1a1a1a;          /* warm charcoal — text (NEVER pure black)   */
+  --color-text-muted: #6b6b6b;    /* secondary text, meta                      */
+  --color-primary: #e8b923;       /* warm mustard/gold — ALL CTAs/prices/offers*/
+  --color-primary-hover: #d4a81e; /* darker gold on hover                      */
+  --color-yellow-banner: #f5c842; /* brighter yellow — HoReCa banner block     */
+  --color-accent-red: #e63a2e;    /* mascot red — occasional accent only       */
+  --color-border: #e5e5e3;        /* subtle card/section borders               */
+  --color-success: #00b67a;       /* Trustpilot green — verified badges        */
+
+  /* ---- Legacy token aliases ----
+   * The category/product/cart/search views are out of scope for this rebuild
+   * but reference these names. They are REPOINTED to the Doreca palette so
+   * those pages adopt the new look automatically and NO burgundy survives. */
+  --color-wine: #1a1a1a;          /* was bordeaux → now charcoal (headings/nav)*/
+  --color-wine-deep: #1a1a1a;     /* was dark bordeaux → charcoal (dark bands) */
+  --color-wine-soft: #d4a81e;     /* was wine → gold (sale-price emphasis)     */
+  --color-gold: #e8b923;          /* == primary (CTAs, prices, badges)         */
+  --color-gold-deep: #d4a81e;     /* == primary-hover                          */
+  --color-gold-soft: #f5c842;     /* light yellow — rings, eyebrows            */
+  --color-cream: #ffffff;         /* == bg (white)                             */
+  --color-cream-deep: #f7f7f5;    /* == surface (light grey)                   */
+  --color-charcoal: #1a1a1a;      /* == text                                   */
+  --color-charcoal-soft: #6b6b6b; /* == text-muted                             */
+  --color-line: #e5e5e3;          /* == border                                 */
 
   /* Fonts — resolved from next/font CSS variables set on <html> */
   --font-heading: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-
-  /* ---- Curry & Spice brand tokens ----
-   * A distinct warm Indian palette, deliberately separate from the indigo
-   * brand above so the restaurant reads as its own product. Only used inside
-   * the site. */
-  --color-curry-saffron: #c7401a;
-  --color-curry-saffron-dark: #a5330f;
-  --color-curry-cardamom: #4a6b4e;
-  --color-curry-cream: #fff8f0;
-  --color-curry-cream-deep: #f7ebdd;
-  --color-curry-charcoal: #2a2420;
-  --color-curry-charcoal-soft: #5a4f47;
-  --color-curry-gold: #e8a548;
-  --color-curry-rose: #f4c2c2;
   /* Display serif (Playfair) + accent serif (Cormorant) — variables are set on
    * <html> via next/font, so these fall back gracefully. */
-  --font-curry-display: var(--font-playfair), Georgia, "Times New Roman", serif;
-  --font-curry-accent: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-accent: var(--font-cormorant), Georgia, "Times New Roman", serif;
 
-  /* Shadows — indigo + green tints only, never any black-based shadow */
-  --shadow-indigo: 0 8px 30px rgba(63, 61, 140, 0.15);
-  --shadow-indigo-sm: 0 4px 16px rgba(63, 61, 140, 0.12);
-  --shadow-indigo-lg: 0 20px 50px rgba(63, 61, 140, 0.22);
-  --shadow-nav: 0 2px 12px rgba(63, 61, 140, 0.1);
-  --shadow-nav-strong: 0 8px 30px rgba(63, 61, 140, 0.16);
-  --shadow-cta: 0 12px 32px rgba(34, 197, 94, 0.45);
-  --shadow-cta-lg: 0 16px 44px rgba(34, 197, 94, 0.6);
+  /* Shadows — warm neutral tones only (Doreca), never a pure-black shadow */
+  --shadow-wine: 0 8px 30px rgba(26, 26, 26, 0.06);
+  --shadow-wine-sm: 0 4px 16px rgba(26, 26, 26, 0.06);
+  --shadow-wine-lg: 0 24px 50px rgba(26, 26, 26, 0.1);
+  --shadow-gold-cta: 0 10px 28px -6px rgba(232, 185, 35, 0.15);
+  /* Doreca-named aliases */
+  --shadow-card: 0 4px 16px rgba(26, 26, 26, 0.06);
+  --shadow-cta: 0 10px 28px -6px rgba(232, 185, 35, 0.15);
 }
 
 /* Named gradients used across the page (text + backgrounds). */
 :root {
-  --gradient-hero: linear-gradient(135deg, #3f3d8c 0%, #ff6b2c 50%, #dc2626 100%);
-  --gradient-success: linear-gradient(135deg, #22c55e 0%, #10b981 50%, #3f3d8c 100%);
-  --gradient-urgency: linear-gradient(135deg, #ff6b2c 0%, #dc2626 50%, #f43f5e 100%);
-  --gradient-trust: linear-gradient(135deg, #3f3d8c 0%, #6361a8 100%);
-  --gradient-sunset: linear-gradient(135deg, #ff6b2c 0%, #ffb088 100%);
-  --gradient-emerald: linear-gradient(135deg, #22c55e 0%, #6ee7b7 100%);
-  --gradient-multi: linear-gradient(120deg, #3f3d8c 0%, #ff6b2c 35%, #dc2626 65%, #22c55e 100%);
+  --gradient-wine: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 55%, #444444 100%);
+  --gradient-gold: linear-gradient(135deg, #d4a81e 0%, #e8b923 50%, #f5c842 100%);
+  --gradient-hero: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 60%, #444444 100%);
 }
 
 @layer base {
@@ -69,10 +75,10 @@
     scroll-behavior: smooth;
   }
 
-  /* Enforce the brand body color globally — deep bold indigo, never black. */
+  /* Enforce the brand body color globally — warm charcoal, never black. */
   body {
-    color: #1e1b4b;
-    font-weight: 500;
+    color: #1a1a1a;
+    font-weight: 400;
     background-color: #ffffff;
     font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -87,8 +93,8 @@
   }
 
   ::selection {
-    background-color: #ffb088;
-    color: #3f3d8c;
+    background-color: #f5c842;
+    color: #1a1a1a;
   }
 
   /* ---- Text-overflow safety net ----
@@ -112,13 +118,8 @@
 @layer utilities {
   /* ---- Gradient text ---- */
   .text-gradient-hero,
-  .text-gradient-success,
-  .text-gradient-urgency,
-  .text-gradient-trust,
-  .text-gradient-sunset,
-  .text-gradient-emerald,
-  .text-gradient-multi,
-  .text-gradient-orange {
+  .text-gradient-wine,
+  .text-gradient-gold {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -127,45 +128,25 @@
   .text-gradient-hero {
     background-image: var(--gradient-hero);
   }
-  .text-gradient-success {
-    background-image: var(--gradient-success);
+  .text-gradient-wine {
+    background-image: var(--gradient-wine);
   }
-  .text-gradient-urgency {
-    background-image: var(--gradient-urgency);
-  }
-  .text-gradient-trust {
-    background-image: var(--gradient-trust);
-  }
-  .text-gradient-sunset,
-  .text-gradient-orange {
-    background-image: var(--gradient-sunset);
-  }
-  .text-gradient-emerald {
-    background-image: var(--gradient-emerald);
-  }
-  .text-gradient-multi {
-    background-image: var(--gradient-multi);
+  .text-gradient-gold {
+    background-image: var(--gradient-gold);
   }
 
   /* ---- Gradient borders (padding-box trick keeps rounded corners) ---- */
-  .grad-border-sunset {
+  .grad-border-gold {
     border: 2px solid transparent;
-    border-radius: 0.75rem;
-    background-image: linear-gradient(#ffffff, #ffffff), var(--gradient-sunset);
+    border-radius: 1rem;
+    background-image: linear-gradient(#ffffff, #ffffff), var(--gradient-gold);
     background-origin: border-box;
     background-clip: padding-box, border-box;
   }
-  .grad-border-sunset-cream {
+  .grad-border-wine {
     border: 2px solid transparent;
     border-radius: 1rem;
-    background-image: linear-gradient(#fff8f2, #fff8f2), var(--gradient-sunset);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-  }
-  .grad-border-hero {
-    border: 3px solid transparent;
-    border-radius: 1rem;
-    background-image: linear-gradient(#ffffff, #ffffff), var(--gradient-hero);
+    background-image: linear-gradient(#ffffff, #ffffff), var(--gradient-wine);
     background-origin: border-box;
     background-clip: padding-box, border-box;
   }
@@ -178,17 +159,17 @@
     background-image: linear-gradient(
       90deg,
       transparent 0%,
-      #ff6b2c 50%,
+      #e8b923 50%,
       transparent 100%
     );
-    opacity: 0.3;
+    opacity: 0.4;
   }
 
-  /* Subtle orange glow reserved for CTA areas only. */
+  /* Subtle gold glow reserved for CTA areas only. */
   .cta-glow {
     box-shadow:
-      0 0 0 1px rgba(255, 176, 136, 0.4),
-      0 18px 60px rgba(255, 107, 44, 0.18);
+      0 0 0 1px rgba(228, 199, 123, 0.5),
+      0 18px 60px rgba(192, 144, 47, 0.2);
   }
 
   /* Animated FAQ accordion: grid-template-rows 0fr -> 1fr for a buttery open. */
@@ -278,9 +259,15 @@
     opacity: 0;
     animation: curryAnnounceRotate 16s ease-in-out infinite backwards;
   }
-  /* Pulsing saffron glow ring on the floating Bella button. */
-  .curry-bella-glow {
-    animation: curryBellaGlow 2.4s ease-in-out infinite;
+  /* Rotating fade tuned for exactly 3 announcement items (each visible for a
+   * third of the 12s cycle; stagger via inline animation-delay 0/4/8s). */
+  .enoteca-rotate-3 {
+    opacity: 0;
+    animation: enotecaRotate3 12s ease-in-out infinite backwards;
+  }
+  /* Pulsing gold glow ring on the floating WhatsApp button. */
+  .enoteca-wa-glow {
+    animation: enotecaWaGlow 2.6s ease-in-out infinite;
   }
   /* "Bella is typing…" bouncing dots (stagger via inline animation-delay). */
   .curry-typing-dot {
@@ -301,6 +288,42 @@
   50% {
     transform: translateY(-6px);
     opacity: 1;
+  }
+}
+
+@keyframes enotecaRotate3 {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  2% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  33% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes enotecaWaGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 10px 26px -6px rgba(18, 140, 74, 0.5),
+      0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 12px 32px -4px rgba(18, 140, 74, 0.6),
+      0 0 0 12px rgba(37, 211, 102, 0);
   }
 }
 
@@ -515,14 +538,18 @@
   .curry-rotate-item,
   .curry-bella-glow,
   .curry-typing-dot,
-  .curry-bounce-up {
+  .curry-bounce-up,
+  .enoteca-rotate-3,
+  .enoteca-wa-glow {
     animation: none !important;
   }
   /* With motion reduced, keep only the first announcement item visible. */
-  .curry-rotate-item {
+  .curry-rotate-item,
+  .enoteca-rotate-3 {
     opacity: 0;
   }
-  .curry-rotate-item:first-child {
+  .curry-rotate-item:first-child,
+  .enoteca-rotate-3:first-child {
     opacity: 1;
   }
 }

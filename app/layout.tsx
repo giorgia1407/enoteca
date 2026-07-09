@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, Inter, Playfair_Display, Cormorant_Garamond } from "next/font/google";
-import { ContentProvider } from "@/components/restaurant/ContentContext";
-import { CartProvider } from "@/components/restaurant/CartContext";
-import { UIProvider } from "@/components/restaurant/UIContext";
+import { I18nProvider } from "@/components/enoteca/i18n";
+import { CartProvider } from "@/components/enoteca/CartContext";
+import { UIProvider } from "@/components/enoteca/UIContext";
 import "./globals.css";
 
 /** Canonical production origin — used for absolute OG/canonical URLs. */
-const SITE_URL = "https://curryespice.it";
+const SITE_URL = "https://iltempiodivino.it";
 
 // Body / UI sans — Inter (variable, self-hosted via next/font).
 const inter = Inter({
@@ -24,7 +24,7 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-// Display serif — Playfair, full range for the masthead and headings.
+// Display serif — Playfair for the masthead and headings.
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -33,7 +33,7 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
-// Accent serif — Cormorant Garamond for the menu's elegant italics.
+// Accent serif — Cormorant Garamond for elegant italics.
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -44,14 +44,14 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Curry & Spice — Cucina Indiana a Roma",
+  title: "Il Tempio di Vino — Enoteca Roma",
   description:
-    "Autentica cucina indiana nel cuore di Roma. Prenoti un tavolo, ordini online o chatti con Bella, la nostra assistente AI.",
+    "Il Tempio di Vino — La tua enoteca di fiducia a Roma. Vini pregiati, bollicine e distillati selezionati. Consegna a domicilio.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Curry & Spice — Cucina indiana moderna nel cuore di Roma",
+    title: "Il Tempio di Vino — Enoteca Roma",
     description:
-      "Autentica cucina indiana nel cuore di Roma. Prenoti, ordini ed esplori il nostro menu.",
+      "Il Tempio di Vino — La tua enoteca di fiducia a Roma. Vini pregiati, bollicine e distillati selezionati. Consegna a domicilio.",
     type: "website",
     locale: "it_IT",
     url: SITE_URL,
@@ -59,28 +59,24 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fff8f0",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="it"
       suppressHydrationWarning
       className={`${inter.variable} ${poppins.variable} ${playfair.variable} ${cormorant.variable}`}
     >
-      <body className="bg-white font-body antialiased">
-        <ContentProvider>
+      <body className="bg-cream font-body antialiased">
+        <I18nProvider>
           <CartProvider>
             <UIProvider>{children}</UIProvider>
           </CartProvider>
-        </ContentProvider>
+        </I18nProvider>
       </body>
     </html>
   );
