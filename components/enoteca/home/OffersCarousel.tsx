@@ -1,25 +1,14 @@
-import { WINES, getOnOffer, type Wine } from "@/data/productData";
+import { getOnOffer, type Wine } from "@/data/productData";
 import { ProductCard } from "../ProductCard";
 import { Carousel, SectionTitle } from "./Carousel";
 
 /**
  * Section 6 — "Le nostre offerte".
- * productData.ts is out of scope for edits, so offers are assembled at render
- * time: the real discounted wines first, then a deterministic set of featured
- * wines given a DISPLAY-ONLY discount (the source objects are never mutated —
- * we render shallow clones with an added `originalPrice`).
+ * Offers are the REAL discounted wines from the catalogue — every bottle whose
+ * `originalPrice` (list) exceeds its current `price`, read off the shop's
+ * handwritten "con sconto" price tags. No display-only/fabricated discounts.
  */
-const DISCOUNTS = [0.1, 0.15, 0.2, 0.25];
-const withDisplayDiscount = (w: Wine, i: number): Wine => {
-  const pct = DISCOUNTS[i % DISCOUNTS.length];
-  return { ...w, originalPrice: Math.round((w.price / (1 - pct)) * 100) / 100 };
-};
-
-const real = getOnOffer();
-const fillers = WINES.filter((w) => w.featured && !w.originalPrice)
-  .slice(0, Math.max(0, 12 - real.length))
-  .map(withDisplayDiscount);
-const OFFERS: Wine[] = [...real, ...fillers];
+const OFFERS: Wine[] = getOnOffer();
 
 export function OffersCarousel() {
   return (
