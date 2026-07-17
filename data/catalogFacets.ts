@@ -291,7 +291,7 @@ export function categoryTiles(): CategoryTile[] {
       slug,
       label: catLabel(slug),
       href: `/categoria/${slug}`,
-      image: rep.image,
+      image: rep.images[0],
       alt: `${catLabel(slug)} — ${rep.name}`,
     });
   }

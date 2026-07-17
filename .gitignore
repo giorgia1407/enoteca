@@ -46,3 +46,7 @@ DORECA_ANALYSIS.md
 
 # Client raw inventory photos (source of truth — not for git)
 Wine-Shop-Roma/
+
+# Photo-processing backups (preserved locally, never served/committed)
+public/products-cluttered-backup-*
+public/products-backup-*

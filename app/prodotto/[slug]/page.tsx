@@ -23,7 +23,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${wine.name} — ${wine.producer}`,
       description: wine.tastingNotes,
-      images: [{ url: wine.image }],
+      images: [{ url: wine.images[0] }],
     },
   };
 }

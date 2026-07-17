@@ -101,7 +101,7 @@ export function ProductCard({
           </div>
         )}
         <BottleImage
-          src={wine.image}
+          src={wine.images[0]}
           alt={wine.alt || `${wine.name} — ${wine.producer}`}
           sizes="(max-width: 640px) 60vw, 260px"
           priority={priority}

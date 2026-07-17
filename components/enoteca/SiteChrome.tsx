@@ -173,7 +173,7 @@ function FeaturedCard({ wine, onClick }: { wine: Wine; onClick?: () => void }) {
         In Evidenza
       </p>
       <div className="relative h-[120px] w-full overflow-hidden rounded-md bg-surface">
-        <BottleImage src={wine.image} alt={wine.name} sizes="220px" className="object-cover" />
+        <BottleImage src={wine.images[0]} alt={wine.name} sizes="220px" className="object-cover" />
       </div>
       <p className="mt-2 line-clamp-2 text-[13px] font-semibold text-text">{wine.name}</p>
       <p className="mt-0.5 text-[14px] font-bold text-text">{formatEuro(wine.price)}</p>

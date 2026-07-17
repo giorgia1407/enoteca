@@ -53,9 +53,13 @@ export function ProductView({
   const [added, setAdded] = useState(false);
   const [tab, setTab] = useState<Tab>("tasting");
 
-  // Small gallery: the bottle shot + the category atmosphere shot.
-  const gallery = [wine.image, category.image];
+  // Product gallery: position 0 is the hero; any further entries are extra
+  // bottle shots (new angles + the preserved original photo). Single-image
+  // products render just the hero with no thumbnail strip.
+  const gallery = wine.images;
   const [active, setActive] = useState(0);
+  const prev = () => setActive((a) => (a - 1 + gallery.length) % gallery.length);
+  const next = () => setActive((a) => (a + 1) % gallery.length);
 
   const off = discountPct(wine);
 
@@ -100,7 +104,26 @@ export function ProductView({
       <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
         {/* Gallery */}
         <div>
-          <div className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-cream-deep">
+          <div
+            className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-cream-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-wine"
+            role={gallery.length > 1 ? "group" : undefined}
+            aria-roledescription={gallery.length > 1 ? "carosello" : undefined}
+            aria-label={gallery.length > 1 ? `${wine.name} — galleria immagini (usa le frecce ← →)` : undefined}
+            tabIndex={gallery.length > 1 ? 0 : undefined}
+            onKeyDown={
+              gallery.length > 1
+                ? (e) => {
+                    if (e.key === "ArrowLeft") {
+                      e.preventDefault();
+                      prev();
+                    } else if (e.key === "ArrowRight") {
+                      e.preventDefault();
+                      next();
+                    }
+                  }
+                : undefined
+            }
+          >
             {off !== null && (
               <span className="absolute left-4 top-4 z-10 rounded-full bg-gold px-3 py-1 text-[13px] font-bold text-charcoal shadow-sm">
                 -{off}%
@@ -108,7 +131,7 @@ export function ProductView({
             )}
             <BottleImage
               src={gallery[active]}
-              alt={active === 0 ? (wine.alt || `${wine.name} — ${wine.producer}`) : `${category.label} — ${wine.name}`}
+              alt={`${wine.alt || `${wine.name} — ${wine.producer}`}${gallery.length > 1 ? ` — foto ${active + 1}` : ""}`}
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
               className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -117,16 +140,16 @@ export function ProductView({
               <>
                 <button
                   type="button"
-                  onClick={() => setActive((a) => (a - 1 + gallery.length) % gallery.length)}
-                  aria-label="Precedente"
+                  onClick={prev}
+                  aria-label="Immagine precedente"
                   className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-wine shadow-sm transition-colors hover:bg-white"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
                 <button
                   type="button"
-                  onClick={() => setActive((a) => (a + 1) % gallery.length)}
-                  aria-label="Successivo"
+                  onClick={next}
+                  aria-label="Immagine successiva"
                   className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-wine shadow-sm transition-colors hover:bg-white"
                 >
                   <ChevronRight className="h-5 w-5" />
@@ -142,6 +165,7 @@ export function ProductView({
                   type="button"
                   onClick={() => setActive(i)}
                   aria-label={`Immagine ${i + 1}`}
+                  aria-current={active === i}
                   className={`relative h-20 w-16 overflow-hidden rounded-lg border-2 bg-cream-deep transition-colors ${
                     active === i ? "border-wine" : "border-line"
                   }`}

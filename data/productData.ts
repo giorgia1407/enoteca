@@ -44,7 +44,7 @@ export interface Wine {
   volume: string;
   price: number;
   originalPrice?: number;
-  image: string;
+  images: string[];
   /** Italian alt text describing the product photo. */
   alt: string;
   tastingNotes: string;
@@ -53,6 +53,8 @@ export interface Wine {
   inStock: boolean;
   featured?: boolean;
   badges?: Badge[];
+  /** New product added from a photo but missing catalogue data — client must fill price/description/etc. */
+  needsClientReview?: boolean;
 }
 
 export interface CategoryMeta {
@@ -183,7 +185,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Montepulciano"],
     volume: "750ml",
     price: 7.5,
-    image: "/products/palio-montepulciano-d-abruzzo.jpeg",
+    images: [
+      "/products/palio-montepulciano-d-abruzzo-hero.jpg", // hero (nuova foto)
+      "/products/palio-montepulciano-d-abruzzo.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Montepulciano d'Abruzzo di Palio, bottiglia scura con etichetta beige e verde biologico.",
     tastingNotes: "Un rosso dal carattere deciso, con profumi di frutta rossa matura e delicate note speziate. Al palato è pieno e avvolgente, con tannini ben integrati e un finale persistente.",
     foodPairings: ["Carni rosse alla griglia", "Formaggi stagionati", "Primi piatti al ragù"],
@@ -202,7 +207,9 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "750ml",
     price: 8.8,
-    image: "/products/venturone-appassimento-rosso.jpeg",
+    images: [
+      "/products/venturone-appassimento-rosso.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Venturone Appassimento Rosso, bottiglia scura con etichetta nera e decori dorati.",
     tastingNotes: "Rosso elegante e strutturato, dai sentori di piccoli frutti scuri e spezie dolci. In bocca risulta caldo ed equilibrato, con una piacevole chiusura.",
     foodPairings: ["Selvaggina", "Arrosti", "Formaggi a pasta dura"],
@@ -221,7 +228,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Chardonnay"],
     volume: "750ml",
     price: 10.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/bisanzio-chardonnay.jpeg",
+    images: [
+      "/products/bisanzio-chardonnay-hero.jpg", // hero (nuova foto)
+      "/products/bisanzio-chardonnay.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Bisanzio Chardonnay, bottiglia verde chiara con etichetta bianca e liquido dorato.",
     tastingNotes: "Un bianco profumato e scattante, con note di mela verde e fiori di campo. Al gusto è fresco, snello e di bella persistenza.",
     foodPairings: ["Crostacei", "Formaggi freschi", "Primi ai frutti di mare"],
@@ -239,7 +249,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Vermentino"],
     volume: "750ml",
     price: 6.3,
-    image: "/products/cantina-santa-maria-la-palma-aragosta-vermentino-di-sardegna.jpeg",
+    images: [
+      "/products/cantina-santa-maria-la-palma-aragosta-vermentino-di-sardegna-hero.jpg", // hero (nuova foto)
+      "/products/cantina-santa-maria-la-palma-aragosta-vermentino-di-sardegna.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Aragosta Vermentino di Sardegna di Cantina Santa Maria La Palma, bottiglia trasparente con liquido chiaro ed etichetta con aragosta.",
     tastingNotes: "Vino bianco dal carattere fragrante, con aromi di frutta bianca e una delicata scia minerale. Il palato è pulito, vivace e armonioso.",
     foodPairings: ["Antipasti vegetariani", "Pesce al forno", "Aperitivo"],
@@ -258,7 +271,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Falanghina"],
     volume: "750ml",
     price: 4,
-    image: "/products/falanghina.jpeg",
+    images: [
+      "/products/falanghina-hero.jpg", // hero (nuova foto)
+      "/products/falanghina.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Falanghina, bottiglia verde con liquido dorato ed etichetta azzurra.",
     tastingNotes: "Bianco fine ed elegante, dai profumi delicati e freschi. In bocca colpisce per equilibrio e per un finale piacevolmente sapido.",
     foodPairings: ["Pesce alla griglia", "Antipasti di mare", "Risotti delicati"],
@@ -278,7 +294,10 @@ export const WINES: Wine[] = [
     volume: "750ml",
     price: 8,
     originalPrice: 10,
-    image: "/products/savian-bio-merlot.jpeg",
+    images: [
+      "/products/savian-bio-merlot-hero.jpg", // hero (nuova foto)
+      "/products/savian-bio-merlot.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Savian Bio Merlot di Savian, bottiglia scura con etichetta bianca e scritta BIO.",
     tastingNotes: "Un rosso dal carattere deciso, con profumi di frutta rossa matura e delicate note speziate. Al palato è pieno e avvolgente, con tannini ben integrati e un finale persistente.",
     foodPairings: ["Selvaggina", "Arrosti", "Formaggi a pasta dura"],
@@ -297,7 +316,11 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Montepulciano"],
     volume: "750ml",
     price: 6.8,
-    image: "/products/bisanzio-montepulciano-d-abruzzo.jpeg",
+    images: [
+      "/products/bisanzio-montepulciano-d-abruzzo-hero.jpg", // hero (nuova foto)
+      "/products/bisanzio-montepulciano-d-abruzzo-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/bisanzio-montepulciano-d-abruzzo.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Bisanzio Montepulciano d'Abruzzo, bottiglia scura con etichetta bianca e decori rossi.",
     tastingNotes: "Rosso elegante e strutturato, dai sentori di piccoli frutti scuri e spezie dolci. In bocca risulta caldo ed equilibrato, con una piacevole chiusura.",
     foodPairings: ["Brasati e stufati", "Salumi", "Pasta ripiena"],
@@ -315,7 +338,11 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Pecorino"],
     volume: "750ml",
     price: 8.5,
-    image: "/products/ferzo-pecorino.jpeg",
+    images: [
+      "/products/ferzo-pecorino-hero.jpg", // hero (nuova foto)
+      "/products/ferzo-pecorino-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/ferzo-pecorino.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Ferzo Pecorino di Ferzo, bottiglia scura con etichetta gialla e veliero dorato.",
     tastingNotes: "Un bianco profumato e scattante, con note di mela verde e fiori di campo. Al gusto è fresco, snello e di bella persistenza.",
     foodPairings: ["Antipasti vegetariani", "Pesce al forno", "Aperitivo"],
@@ -334,7 +361,11 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Montepulciano"],
     volume: "750ml",
     price: 11.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/ferzo-montepulciano-d-abruzzo-teate.jpeg",
+    images: [
+      "/products/ferzo-montepulciano-d-abruzzo-teate-hero.jpg", // hero (nuova foto)
+      "/products/ferzo-montepulciano-d-abruzzo-teate-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/ferzo-montepulciano-d-abruzzo-teate.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Ferzo Montepulciano d'Abruzzo Teate di Ferzo, bottiglia scura con etichetta bordeaux e veliero dorato.",
     tastingNotes: "Rosso di bella profondità, con aromi di prugna e ciliegia sotto spirito. Al gusto è armonico e avvolgente, dal finale lungo e appagante.",
     foodPairings: ["Carni rosse alla griglia", "Formaggi stagionati", "Primi piatti al ragù"],
@@ -352,7 +383,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Sauvignon", "Chardonnay"],
     volume: "750ml",
     price: 7.4,
-    image: "/products/consoli-saucha-sauvignon-chardonnay.jpeg",
+    images: [
+      "/products/consoli-saucha-sauvignon-chardonnay-hero.jpg", // hero (nuova foto)
+      "/products/consoli-saucha-sauvignon-chardonnay.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Saucha Sauvignon Chardonnay di Consoli, bottiglia scura con etichetta bianca e scritta dorata.",
     tastingNotes: "Bianco fine ed elegante, dai profumi delicati e freschi. In bocca colpisce per equilibrio e per un finale piacevolmente sapido.",
     foodPairings: ["Frutti di mare", "Verdure di stagione", "Carni bianche"],
@@ -370,7 +404,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Pecorino"],
     volume: "750ml",
     price: 6.1,
-    image: "/products/consoli-pecorino.jpeg",
+    images: [
+      "/products/consoli-pecorino-hero.jpg", // hero (nuova foto)
+      "/products/consoli-pecorino.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Pecorino di Consoli, bottiglia chiara con etichetta bianca e argento.",
     tastingNotes: "Vino bianco fresco e minerale, con profumi delicati di fiori bianchi e frutta a polpa gialla. Al palato è vivace ed equilibrato, con un finale pulito.",
     foodPairings: ["Crostacei", "Formaggi freschi", "Primi ai frutti di mare"],
@@ -388,7 +425,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Montepulciano"],
     volume: "750ml",
     price: 6.8,
-    image: "/products/consoli-ego.jpeg",
+    images: [
+      "/products/consoli-ego-hero.jpg", // hero (nuova foto)
+      "/products/consoli-ego.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Ego di Consoli, bottiglia scura con etichetta nera e oro.",
     tastingNotes: "Rosso elegante e strutturato, dai sentori di piccoli frutti scuri e spezie dolci. In bocca risulta caldo ed equilibrato, con una piacevole chiusura.",
     foodPairings: ["Grigliate di carne", "Pecorino stagionato", "Primi saporiti"],
@@ -406,7 +446,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Cesanese"],
     volume: "750ml",
     price: 9.5,
-    image: "/products/consoli-oddoni-cesanese.jpeg",
+    images: [
+      "/products/consoli-oddoni-cesanese-hero.jpg", // hero (nuova foto)
+      "/products/consoli-oddoni-cesanese.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Oddoni Cesanese di Consoli, bottiglia scura con etichetta bianca e scritte nere.",
     tastingNotes: "Un vino rosso dal profilo intenso, con note fruttate e un tocco di sottobosco. Il sorso è morbido e generoso, sorretto da tannini vellutati.",
     foodPairings: ["Carni rosse alla griglia", "Formaggi stagionati", "Primi piatti al ragù"],
@@ -424,7 +467,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Falanghina"],
     volume: "750ml",
     price: 5.2,
-    image: "/products/consoli-ego-falanghina.jpeg",
+    images: [
+      "/products/consoli-ego-falanghina-hero.jpg", // hero (nuova foto)
+      "/products/consoli-ego-falanghina.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Ego Falanghina di Consoli, bottiglia verde con etichetta verde e scritte oro.",
     tastingNotes: "Vino bianco dal carattere fragrante, con aromi di frutta bianca e una delicata scia minerale. Il palato è pulito, vivace e armonioso.",
     foodPairings: ["Frutti di mare", "Verdure di stagione", "Carni bianche"],
@@ -443,7 +489,11 @@ export const WINES: Wine[] = [
     vintage: 2018,
     volume: "750ml",
     price: 18,
-    image: "/products/citra-caroso-montepulciano-d-abruzzo-riserva.jpeg",
+    images: [
+      "/products/citra-caroso-montepulciano-d-abruzzo-riserva-hero.jpg", // hero (nuova foto)
+      "/products/citra-caroso-montepulciano-d-abruzzo-riserva-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/citra-caroso-montepulciano-d-abruzzo-riserva.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Caroso Montepulciano d'Abruzzo Riserva di Citra, bottiglia scura con capsula oro ed etichetta nera.",
     tastingNotes: "Un rosso conviviale e versatile, dai profumi vinosi e fruttati. Al palato è schietto, morbido e di piacevole beva.",
     foodPairings: ["Brasati e stufati", "Salumi", "Pasta ripiena"],
@@ -461,7 +511,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Chardonnay"],
     volume: "750ml",
     price: 10.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/savian-chardonnay-venezia.jpeg",
+    images: [
+      "/products/savian-chardonnay-venezia-hero.jpg", // hero (nuova foto)
+      "/products/savian-chardonnay-venezia.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Chardonnay Venezia di Savian, bottiglia scura con etichetta bianca, BIO Chardonnay.",
     tastingNotes: "Vino bianco fresco e minerale, con profumi delicati di fiori bianchi e frutta a polpa gialla. Al palato è vivace ed equilibrato, con un finale pulito.",
     foodPairings: ["Antipasti vegetariani", "Pesce al forno", "Aperitivo"],
@@ -480,7 +533,10 @@ export const WINES: Wine[] = [
     vintage: 2024,
     volume: "750ml",
     price: 11.9,
-    image: "/products/mandrarossa-cavadiserpe.jpeg",
+    images: [
+      "/products/mandrarossa-cavadiserpe-hero.jpg", // hero (nuova foto)
+      "/products/mandrarossa-cavadiserpe.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Cavadiserpe di Mandrarossa, bottiglia scura con etichetta avorio e stella.",
     tastingNotes: "Rosso elegante e strutturato, dai sentori di piccoli frutti scuri e spezie dolci. In bocca risulta caldo ed equilibrato, con una piacevole chiusura.",
     foodPairings: ["Carni rosse alla griglia", "Formaggi stagionati", "Primi piatti al ragù"],
@@ -498,7 +554,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Passerina"],
     volume: "750ml",
     price: 11.6,
-    image: "/products/clementina-fabi-cri-passerina.jpeg",
+    images: [
+      "/products/clementina-fabi-cri-passerina-hero.jpg", // hero (nuova foto)
+      "/products/clementina-fabi-cri-passerina.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Cri Passerina di Clementina Fabi, bottiglia scura con capsula verde ed etichetta avorio.",
     tastingNotes: "Un bianco profumato e scattante, con note di mela verde e fiori di campo. Al gusto è fresco, snello e di bella persistenza.",
     foodPairings: ["Frutti di mare", "Verdure di stagione", "Carni bianche"],
@@ -516,7 +575,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Pecorino"],
     volume: "750ml",
     price: 10.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/clementina-fabi-cri-pecorino.jpeg",
+    images: [
+      "/products/clementina-fabi-cri-pecorino-hero.jpg", // hero (nuova foto)
+      "/products/clementina-fabi-cri-pecorino.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Cri Pecorino di Clementina Fabi, bottiglia scura con capsula oro ed etichetta avorio.",
     tastingNotes: "Vino bianco dal carattere fragrante, con aromi di frutta bianca e una delicata scia minerale. Il palato è pulito, vivace e armonioso.",
     foodPairings: ["Crostacei", "Formaggi freschi", "Primi ai frutti di mare"],
@@ -534,7 +596,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Pinot Grigio"],
     volume: "750ml",
     price: 10.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/savian-pinot-grigio-venezia.jpeg",
+    images: [
+      "/products/savian-pinot-grigio-venezia-hero.jpg", // hero (nuova foto)
+      "/products/savian-pinot-grigio-venezia.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Pinot Grigio Venezia di Savian, bottiglia scura con etichetta bianca, BIO Pinot Grigio.",
     tastingNotes: "Bianco fine ed elegante, dai profumi delicati e freschi. In bocca colpisce per equilibrio e per un finale piacevolmente sapido.",
     foodPairings: ["Antipasti vegetariani", "Pesce al forno", "Aperitivo"],
@@ -553,7 +618,9 @@ export const WINES: Wine[] = [
     volume: "750ml",
     price: 18,
     originalPrice: 20,
-    image: "/products/aldo-marenco-langhe-nebbiolo.jpeg",
+    images: [
+      "/products/aldo-marenco-langhe-nebbiolo.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Langhe Nebbiolo di Aldo Marenco, Bottiglia bordolese verde scura, etichetta bianca con scritta nera.",
     tastingNotes: "Un rosso dal carattere deciso, con profumi di frutta rossa matura e delicate note speziate. Al palato è pieno e avvolgente, con tannini ben integrati e un finale persistente.",
     foodPairings: ["Carni rosse alla griglia", "Formaggi stagionati", "Primi piatti al ragù"],
@@ -571,7 +638,11 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Nebbiolo"],
     volume: "750ml",
     price: 13.5,
-    image: "/products/marchesi-di-barolo-michet-nebbiolo-d-alba.jpeg",
+    images: [
+      "/products/marchesi-di-barolo-michet-nebbiolo-d-alba-hero.jpg", // hero (nuova foto)
+      "/products/marchesi-di-barolo-michet-nebbiolo-d-alba-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/marchesi-di-barolo-michet-nebbiolo-d-alba.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Michet Nebbiolo d'Alba di Marchesi di Barolo, Bottiglia bordolese scura, capsula rossa, etichetta crema elegante.",
     tastingNotes: "Rosso elegante e strutturato, dai sentori di piccoli frutti scuri e spezie dolci. In bocca risulta caldo ed equilibrato, con una piacevole chiusura.",
     foodPairings: ["Selvaggina", "Arrosti", "Formaggi a pasta dura"],
@@ -589,7 +660,11 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Viognier"],
     volume: "750ml",
     price: 10.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/pico-maccario-estrosa-viognier.jpeg",
+    images: [
+      "/products/pico-maccario-estrosa-viognier-hero.jpg", // hero (nuova foto)
+      "/products/pico-maccario-estrosa-viognier-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/pico-maccario-estrosa-viognier.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Estrosa Viognier di Pico Maccario, Bottiglia chiara con vino giallo dorato, capsula verde lime.",
     tastingNotes: "Un bianco profumato e scattante, con note di mela verde e fiori di campo. Al gusto è fresco, snello e di bella persistenza.",
     foodPairings: ["Crostacei", "Formaggi freschi", "Primi ai frutti di mare"],
@@ -608,7 +683,9 @@ export const WINES: Wine[] = [
     alcohol: 12.5,
     volume: "750ml",
     price: 11.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/kamasutra-red-wine-shiraz.jpeg",
+    images: [
+      "/products/kamasutra-red-wine-shiraz.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Kamasutra Red Wine Shiraz, Bottiglia scura opaca, etichetta nera con decoro rosso.",
     tastingNotes: "Rosso di bella profondità, con aromi di prugna e ciliegia sotto spirito. Al gusto è armonico e avvolgente, dal finale lungo e appagante.",
     foodPairings: ["Grigliate di carne", "Pecorino stagionato", "Primi saporiti"],
@@ -627,7 +704,10 @@ export const WINES: Wine[] = [
     alcohol: 12.5,
     volume: "750ml",
     price: 10.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/kamasutra-white-wine-sauvignon-blanc.jpeg",
+    images: [
+      "/products/kamasutra-white-wine-sauvignon-blanc-hero.jpg", // hero (nuova foto)
+      "/products/kamasutra-white-wine-sauvignon-blanc.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Kamasutra White Wine Sauvignon Blanc, Bottiglia scura opaca, etichetta dorata con decoro barocco.",
     tastingNotes: "Bianco fine ed elegante, dai profumi delicati e freschi. In bocca colpisce per equilibrio e per un finale piacevolmente sapido.",
     foodPairings: ["Pesce alla griglia", "Antipasti di mare", "Risotti delicati"],
@@ -645,7 +725,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Barbera"],
     volume: "750ml",
     price: 11.5,
-    image: "/products/marchesi-di-barolo-rure-barbera-d-asti.jpeg",
+    images: [
+      "/products/marchesi-di-barolo-rure-barbera-d-asti-hero.jpg", // hero (nuova foto)
+      "/products/marchesi-di-barolo-rure-barbera-d-asti.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Rurè Barbera d'Asti di Marchesi di Barolo, Bottiglia scura, capsula rossa, etichetta crema classica.",
     tastingNotes: "Un rosso dal carattere deciso, con profumi di frutta rossa matura e delicate note speziate. Al palato è pieno e avvolgente, con tannini ben integrati e un finale persistente.",
     foodPairings: ["Selvaggina", "Arrosti", "Formaggi a pasta dura"],
@@ -663,7 +746,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Dolcetto"],
     volume: "750ml",
     price: 11.5,
-    image: "/products/marchesi-di-barolo-madonna-del-dono-dolcetto-d-alba.jpeg",
+    images: [
+      "/products/marchesi-di-barolo-madonna-del-dono-dolcetto-d-alba-hero.jpg", // hero (nuova foto)
+      "/products/marchesi-di-barolo-madonna-del-dono-dolcetto-d-alba.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Madonna del Dono Dolcetto d'Alba di Marchesi di Barolo, Bottiglia scura, capsula rossa, etichetta bianca elegante.",
     tastingNotes: "Rosso elegante e strutturato, dai sentori di piccoli frutti scuri e spezie dolci. In bocca risulta caldo ed equilibrato, con una piacevole chiusura.",
     foodPairings: ["Brasati e stufati", "Salumi", "Pasta ripiena"],
@@ -682,7 +768,11 @@ export const WINES: Wine[] = [
     volume: "750ml",
     price: 15,
     originalPrice: 16.5,
-    image: "/products/mybrid.jpeg",
+    images: [
+      "/products/mybrid-hero.jpg", // hero (nuova foto)
+      "/products/mybrid-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/mybrid.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Mybrid, Bottiglia chiara con etichetta bianca e disegno albero verde.",
     tastingNotes: "Un bianco profumato e scattante, con note di mela verde e fiori di campo. Al gusto è fresco, snello e di bella persistenza.",
     foodPairings: ["Antipasti vegetariani", "Pesce al forno", "Aperitivo"],
@@ -700,7 +790,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Grillo"],
     volume: "750ml",
     price: 14.8,
-    image: "/products/mandrarossa-bertolino-soprano-grillo.jpeg",
+    images: [
+      "/products/mandrarossa-bertolino-soprano-grillo-hero.jpg", // hero (nuova foto)
+      "/products/mandrarossa-bertolino-soprano-grillo.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Mandrarossa Bertolino Soprano Grillo di Mandrarossa, Bottiglia scura, etichetta illustrata con paesaggio e cavaliere.",
     tastingNotes: "Vino bianco dal carattere fragrante, con aromi di frutta bianca e una delicata scia minerale. Il palato è pulito, vivace e armonioso.",
     foodPairings: ["Pesce alla griglia", "Antipasti di mare", "Risotti delicati"],
@@ -719,7 +812,10 @@ export const WINES: Wine[] = [
     vintage: 2024,
     volume: "750ml",
     price: 12,
-    image: "/products/planeta-cerasuolo-di-vittoria.jpeg",
+    images: [
+      "/products/planeta-cerasuolo-di-vittoria-hero.jpg", // hero (nuova foto)
+      "/products/planeta-cerasuolo-di-vittoria.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Planeta Cerasuolo di Vittoria di Planeta, Bottiglia scura, capsula rossa, etichetta rossa a spirale.",
     tastingNotes: "Un rosso conviviale e versatile, dai profumi vinosi e fruttati. Al palato è schietto, morbido e di piacevole beva.",
     foodPairings: ["Selvaggina", "Arrosti", "Formaggi a pasta dura"],
@@ -738,7 +834,10 @@ export const WINES: Wine[] = [
     vintage: 2023,
     volume: "750ml",
     price: 12.5,
-    image: "/products/planeta-nocera.jpeg",
+    images: [
+      "/products/planeta-nocera-hero.jpg", // hero (nuova foto)
+      "/products/planeta-nocera.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Nocera di Planeta, Bottiglia scura con etichetta bianca e capsula rossa.",
     tastingNotes: "Un rosso dal carattere deciso, con profumi di frutta rossa matura e delicate note speziate. Al palato è pieno e avvolgente, con tannini ben integrati e un finale persistente.",
     foodPairings: ["Brasati e stufati", "Salumi", "Pasta ripiena"],
@@ -756,7 +855,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "750ml",
     price: 14.5,
-    image: "/products/donnafugata-lighea.jpeg",
+    images: [
+      "/products/donnafugata-lighea-hero.jpg", // hero (nuova foto)
+      "/products/donnafugata-lighea.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Lighea di Donnafugata, Bottiglia con vino chiaro ed etichetta azzurra con volto.",
     tastingNotes: "Bianco luminoso dai sentori agrumati e floreali. In bocca è teso e sapido, con una gradevole acidità che invita al sorso successivo.",
     foodPairings: ["Antipasti vegetariani", "Pesce al forno", "Aperitivo"],
@@ -775,7 +877,10 @@ export const WINES: Wine[] = [
     vintage: 2024,
     volume: "750ml",
     price: 11.9,
-    image: "/products/mandrarossa-larcera-vermentino.jpeg",
+    images: [
+      "/products/mandrarossa-larcera-vermentino-hero.jpg", // hero (nuova foto)
+      "/products/mandrarossa-larcera-vermentino.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Larcéra Vermentino di Mandrarossa, Bottiglia scura con etichetta crema e capsula grigia.",
     tastingNotes: "Un bianco profumato e scattante, con note di mela verde e fiori di campo. Al gusto è fresco, snello e di bella persistenza.",
     foodPairings: ["Pesce alla griglia", "Antipasti di mare", "Risotti delicati"],
@@ -794,7 +899,10 @@ export const WINES: Wine[] = [
     vintage: 2021,
     volume: "750ml",
     price: 17.2,
-    image: "/products/mandrarossa-cartagho.jpeg",
+    images: [
+      "/products/mandrarossa-cartagho-hero.jpg", // hero (nuova foto)
+      "/products/mandrarossa-cartagho.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Cartagho di Mandrarossa, Bottiglia scura con etichetta bianca e capsula bordeaux.",
     tastingNotes: "Rosso di bella profondità, con aromi di prugna e ciliegia sotto spirito. Al gusto è armonico e avvolgente, dal finale lungo e appagante.",
     foodPairings: ["Selvaggina", "Arrosti", "Formaggi a pasta dura"],
@@ -812,7 +920,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Grecanico"],
     volume: "750ml",
     price: 12,
-    image: "/products/planeta-alastro.jpeg",
+    images: [
+      "/products/planeta-alastro-hero.jpg", // hero (nuova foto)
+      "/products/planeta-alastro.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Alastro di Planeta, Bottiglia con vino chiaro ed etichetta verde salvia floreale.",
     tastingNotes: "Bianco fine ed elegante, dai profumi delicati e freschi. In bocca colpisce per equilibrio e per un finale piacevolmente sapido.",
     foodPairings: ["Crostacei", "Formaggi freschi", "Primi ai frutti di mare"],
@@ -830,7 +941,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Grillo"],
     volume: "750ml",
     price: 12,
-    image: "/products/planeta-terebinto.jpeg",
+    images: [
+      "/products/planeta-terebinto-hero.jpg", // hero (nuova foto)
+      "/products/planeta-terebinto.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Terebinto di Planeta, Bottiglia con etichetta gialla floreale e capsula gialla.",
     tastingNotes: "Vino bianco fresco e minerale, con profumi delicati di fiori bianchi e frutta a polpa gialla. Al palato è vivace ed equilibrato, con un finale pulito.",
     foodPairings: ["Antipasti vegetariani", "Pesce al forno", "Aperitivo"],
@@ -848,7 +962,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Nero d'Avola"],
     volume: "750ml",
     price: 12,
-    image: "/products/planeta-plumbago.jpeg",
+    images: [
+      "/products/planeta-plumbago-hero.jpg", // hero (nuova foto)
+      "/products/planeta-plumbago.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Plumbago di Planeta, Bottiglia scura con etichetta rosa floreale e capsula viola.",
     tastingNotes: "Rosso elegante e strutturato, dai sentori di piccoli frutti scuri e spezie dolci. In bocca risulta caldo ed equilibrato, con una piacevole chiusura.",
     foodPairings: ["Carni rosse alla griglia", "Formaggi stagionati", "Primi piatti al ragù"],
@@ -867,7 +984,10 @@ export const WINES: Wine[] = [
     vintage: 2023,
     volume: "750ml",
     price: 17,
-    image: "/products/planeta-dorilli.jpeg",
+    images: [
+      "/products/planeta-dorilli-hero.jpg", // hero (nuova foto)
+      "/products/planeta-dorilli.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Dorilli di Planeta, Bottiglia scura con etichetta nera e scritte a spirale bianche.",
     tastingNotes: "Un vino rosso dal profilo intenso, con note fruttate e un tocco di sottobosco. Il sorso è morbido e generoso, sorretto da tannini vellutati.",
     foodPairings: ["Selvaggina", "Arrosti", "Formaggi a pasta dura"],
@@ -886,7 +1006,10 @@ export const WINES: Wine[] = [
     vintage: 2025,
     volume: "750ml",
     price: 9,
-    image: "/products/planeta-la-segreta-bianco.jpeg",
+    images: [
+      "/products/planeta-la-segreta-bianco-hero.jpg", // hero (nuova foto)
+      "/products/planeta-la-segreta-bianco.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di La Segreta Bianco di Planeta, Bottiglia con vino chiaro ed etichetta bianca floreale, capsula gialla.",
     tastingNotes: "Vino bianco dal carattere fragrante, con aromi di frutta bianca e una delicata scia minerale. Il palato è pulito, vivace e armonioso.",
     foodPairings: ["Crostacei", "Formaggi freschi", "Primi ai frutti di mare"],
@@ -905,7 +1028,11 @@ export const WINES: Wine[] = [
     vintage: 2024,
     volume: "750ml",
     price: 9,
-    image: "/products/planeta-la-segreta-rosso.jpeg",
+    images: [
+      "/products/planeta-la-segreta-rosso-hero.jpg", // hero (nuova foto)
+      "/products/planeta-la-segreta-rosso-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/planeta-la-segreta-rosso.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di La Segreta Rosso di Planeta, Bottiglia scura con etichetta bianca floreale e capsula rossa.",
     tastingNotes: "Un rosso conviviale e versatile, dai profumi vinosi e fruttati. Al palato è schietto, morbido e di piacevole beva.",
     foodPairings: ["Grigliate di carne", "Pecorino stagionato", "Primi saporiti"],
@@ -924,7 +1051,10 @@ export const WINES: Wine[] = [
     vintage: 2023,
     volume: "750ml",
     price: 11.9,
-    image: "/products/mandrarossa-santannella.jpeg",
+    images: [
+      "/products/mandrarossa-santannella-hero.jpg", // hero (nuova foto)
+      "/products/mandrarossa-santannella.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Santannella di Mandrarossa, Etichetta avorio con scritte scure e stella dorata.",
     tastingNotes: "Un rosso dal carattere deciso, con profumi di frutta rossa matura e delicate note speziate. Al palato è pieno e avvolgente, con tannini ben integrati e un finale persistente.",
     foodPairings: ["Carni rosse alla griglia", "Formaggi stagionati", "Primi piatti al ragù"],
@@ -943,7 +1073,10 @@ export const WINES: Wine[] = [
     vintage: 2024,
     volume: "750ml",
     price: 12.8,
-    image: "/products/donnafugata-lumera.jpeg",
+    images: [
+      "/products/donnafugata-lumera-hero.jpg", // hero (nuova foto)
+      "/products/donnafugata-lumera.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Lumera di Donnafugata, Liquido rosa salmone, capsula lilla, etichetta illustrata colorata.",
     tastingNotes: "Rosato delicato dai sentori floreali e fruttati. Al gusto risulta fresco ed equilibrato, perfetto per la tavola di tutti i giorni.",
     foodPairings: ["Insalate di mare", "Aperitivo", "Piatti estivi"],
@@ -962,7 +1095,9 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 13,
-    image: "/products/benvenuti-limoncello.jpeg",
+    images: [
+      "/products/benvenuti-limoncello.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Limoncello di Benvenuti, Liquido giallo limone, etichetta bianca con limoni disegnati.",
     tastingNotes: "Liquore dal profilo aromatico distintivo, ideale come digestivo o per la mixology creativa. Al palato è avvolgente e ben bilanciato.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -982,7 +1117,9 @@ export const WINES: Wine[] = [
     alcohol: 40,
     volume: "700ml",
     price: 10,
-    image: "/products/raffles-gin.jpeg",
+    images: [
+      "/products/raffles-gin.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Raffles Gin di Raffles, Bottiglia trasparente, etichetta scura con decori turchese argento.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1002,7 +1139,11 @@ export const WINES: Wine[] = [
     alcohol: 25,
     volume: "700ml",
     price: 18.5,
-    image: "/products/meera-ginger.jpeg",
+    images: [
+      "/products/meera-ginger-hero.jpg", // hero (nuova foto)
+      "/products/meera-ginger-2.jpg", // foto aggiuntiva (nuovo angolo)
+      "/products/meera-ginger.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Meera Ginger di Meera, Liquido chiaro dorato, etichetta bianca e oro con elefante.",
     tastingNotes: "Liquore dai profumi intensi e riconoscibili. Al gusto è rotondo ed equilibrato, gradevole liscio o nei cocktail.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1021,7 +1162,9 @@ export const WINES: Wine[] = [
     alcohol: 25,
     volume: "700ml",
     price: 18.5, // PROVISIONAL — read from the shared line-up price tag (Meera range); confirm before go-live
-    image: "/products/meera-rose.jpeg",
+    images: [
+      "/products/meera-rose.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Meera Rose di Meera, Liquido rosato con etichetta bianca e oro Premium Quality.",
     tastingNotes: "Liquore dai profumi intensi e riconoscibili. Al gusto è rotondo ed equilibrato, gradevole liscio o nei cocktail.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1040,7 +1183,9 @@ export const WINES: Wine[] = [
     alcohol: 25,
     volume: "700ml",
     price: 18.5, // PROVISIONAL — read from the shared line-up price tag (Meera range); confirm before go-live
-    image: "/products/meera-alphonso-mango.jpeg",
+    images: [
+      "/products/meera-alphonso-mango.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Meera Alphonso Mango di Meera, Liquido arancione con etichetta bianca e oro Premium Quality e mango disegnato.",
     tastingNotes: "Liquore dai profumi intensi e riconoscibili. Al gusto è rotondo ed equilibrato, gradevole liscio o nei cocktail.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1059,7 +1204,9 @@ export const WINES: Wine[] = [
     alcohol: 25,
     volume: "700ml",
     price: 18.5, // PROVISIONAL — read from the shared line-up price tag (Meera range); confirm before go-live
-    image: "/products/meera-cardamom.jpeg",
+    images: [
+      "/products/meera-cardamom.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Meera Cardamom di Meera, Liquido verde con etichetta bianca e oro Premium Quality e cardamomo disegnato.",
     tastingNotes: "Liquore dai profumi intensi e riconoscibili. Al gusto è rotondo ed equilibrato, gradevole liscio o nei cocktail.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1078,7 +1225,10 @@ export const WINES: Wine[] = [
     vintage: 2024,
     volume: "750ml",
     price: 12.8,
-    image: "/products/donnafugata-sursur.jpeg",
+    images: [
+      "/products/donnafugata-sursur-hero.jpg", // hero (nuova foto)
+      "/products/donnafugata-sursur.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di SurSur di Donnafugata, Vino bianco paglierino, capsula verde, etichetta con prato illustrato.",
     tastingNotes: "Vino bianco fresco e minerale, con profumi delicati di fiori bianchi e frutta a polpa gialla. Al palato è vivace ed equilibrato, con un finale pulito.",
     foodPairings: ["Frutti di mare", "Verdure di stagione", "Carni bianche"],
@@ -1097,7 +1247,10 @@ export const WINES: Wine[] = [
     vintage: 2025,
     volume: "750ml",
     price: 9.5,
-    image: "/products/donnafugata-damarino.jpeg",
+    images: [
+      "/products/donnafugata-damarino-hero.jpg", // hero (nuova foto)
+      "/products/donnafugata-damarino.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Damarino di Donnafugata, Vino bianco chiaro, capsula azzurra, etichetta blu illustrata.",
     tastingNotes: "Bianco luminoso dai sentori agrumati e floreali. In bocca è teso e sapido, con una gradevole acidità che invita al sorso successivo.",
     foodPairings: ["Crostacei", "Formaggi freschi", "Primi ai frutti di mare"],
@@ -1115,7 +1268,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 47,
-    image: "/products/gin-puro-the-one.jpeg",
+    images: [
+      "/products/gin-puro-the-one-hero.jpg", // hero (nuova foto)
+      "/products/gin-puro-the-one.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Gin Puro The One, Bottiglia quadrata trasparente, etichetta nera con scritte bianche.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1135,7 +1291,10 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 38,
     originalPrice: 45,
-    image: "/products/cobalto-17.jpeg",
+    images: [
+      "/products/cobalto-17-hero.jpg", // hero (nuova foto)
+      "/products/cobalto-17.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Cobalto-17, Bottiglia trasparente, etichetta bianca con grande Co blu.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1154,7 +1313,10 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 11.2,
     originalPrice: 12.8,
-    image: "/products/martini-e-rossi-martini-fiero-l-aperitivo.jpeg",
+    images: [
+      "/products/martini-e-rossi-martini-fiero-l-aperitivo-hero.jpg", // hero (nuova foto)
+      "/products/martini-e-rossi-martini-fiero-l-aperitivo.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Martini Fiero L'Aperitivo di Martini & Rossi, Bottiglia scura con etichetta arancione tonda Martini.",
     tastingNotes: "Un liquore dal carattere deciso, con note erbacee e agrumate. Il sorso è morbido e persistente, perfetto a fine pasto.",
     foodPairings: ["Dopo cena", "Mixology", "Caffè"],
@@ -1173,7 +1335,10 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 15.5,
     originalPrice: 16.6,
-    image: "/products/fratelli-branca-distillerie-fernet-branca.jpeg",
+    images: [
+      "/products/fratelli-branca-distillerie-fernet-branca-hero.jpg", // hero (nuova foto)
+      "/products/fratelli-branca-distillerie-fernet-branca.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Fernet-Branca di Fratelli Branca Distillerie, Bottiglia scura con etichetta bianca Fernet-Branca.",
     tastingNotes: "Liquore dai profumi intensi e riconoscibili. Al gusto è rotondo ed equilibrato, gradevole liscio o nei cocktail.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1191,7 +1356,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 18.9,
-    image: "/products/nardini-acqua-di-cedro-essenza-mediterranea.jpeg",
+    images: [
+      "/products/nardini-acqua-di-cedro-essenza-mediterranea-hero.jpg", // hero (nuova foto)
+      "/products/nardini-acqua-di-cedro-essenza-mediterranea.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Acqua di Cedro Essenza Mediterranea di Nardini, Bottiglia trasparente quadrata con etichetta bianca e cedro.",
     tastingNotes: "Liquore dal profilo aromatico distintivo, ideale come digestivo o per la mixology creativa. Al palato è avvolgente e ben bilanciato.",
     foodPairings: ["Dopo cena", "Mixology", "Caffè"],
@@ -1210,7 +1378,9 @@ export const WINES: Wine[] = [
     alcohol: 28,
     volume: "700ml",
     price: 9,
-    image: "/products/limoncello-luce-di-limone.jpeg",
+    images: [
+      "/products/limoncello-luce-di-limone.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Limoncello Luce di Limone, Liquido giallo limone con etichetta bianca floreale colorata.",
     tastingNotes: "Un liquore dal carattere deciso, con note erbacee e agrumate. Il sorso è morbido e persistente, perfetto a fine pasto.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1229,7 +1399,9 @@ export const WINES: Wine[] = [
     vintage: 2015,
     volume: "750ml",
     price: 20.7,
-    image: "/products/donnafugata-sul-vulcano-etna-rosato.jpeg",
+    images: [
+      "/products/donnafugata-sul-vulcano-etna-rosato.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Sul Vulcano Etna Rosato di Donnafugata, Liquido rosato salmone con etichetta bianca colorata Donnafugata.",
     tastingNotes: "Rosato delicato dai sentori floreali e fruttati. Al gusto risulta fresco ed equilibrato, perfetto per la tavola di tutti i giorni.",
     foodPairings: ["Insalate di mare", "Aperitivo", "Piatti estivi"],
@@ -1249,7 +1421,9 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 6.9,
     originalPrice: 7.9,
-    image: "/products/national-alcohol-company-kozak-vodka-classic.jpeg",
+    images: [
+      "/products/national-alcohol-company-kozak-vodka-classic.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Kozak Vodka Classic di National Alcohol Company, Bottiglia trasparente con etichetta rossa e argento Kozak.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1268,7 +1442,9 @@ export const WINES: Wine[] = [
     alcohol: 41,
     volume: "700ml",
     price: 35.5,
-    image: "/products/malfy-gin-con-arancia-blood-orange.jpeg",
+    images: [
+      "/products/malfy-gin-con-arancia-blood-orange.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Malfy Gin Con Arancia (Blood Orange) di Malfy, Bottiglia arancione con etichetta azzurra tonda Malfy.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1287,7 +1463,9 @@ export const WINES: Wine[] = [
     alcohol: 23,
     volume: "700ml",
     price: 8,
-    image: "/products/bulbash-green-line-fresh-infusion-raspberry-orange-thyme.jpeg",
+    images: [
+      "/products/bulbash-green-line-fresh-infusion-raspberry-orange-thyme.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Green Line Fresh Infusion Raspberry-Orange-Thyme di Bulbash, Liquido rosato ambrato con etichetta verde e frutti.",
     tastingNotes: "Liquore dai profumi intensi e riconoscibili. Al gusto è rotondo ed equilibrato, gradevole liscio o nei cocktail.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1306,7 +1484,9 @@ export const WINES: Wine[] = [
     alcohol: 41,
     volume: "700ml",
     price: 35.5,
-    image: "/products/malfy-gin-rosa-pink-grapefruit.jpeg",
+    images: [
+      "/products/malfy-gin-rosa-pink-grapefruit.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Malfy Gin Rosa (Pink Grapefruit) di Malfy, Bottiglia rosa smerigliata con etichetta azzurra tonda Malfy.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1324,7 +1504,9 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 11.5,
-    image: "/products/kozatska-rada-originale.jpeg",
+    images: [
+      "/products/kozatska-rada-originale.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Kozatska Rada Originale (Козацька Рада), Bottiglia trasparente con etichetta scura e stemma dorato.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1343,7 +1525,10 @@ export const WINES: Wine[] = [
     alcohol: 40,
     volume: "700ml",
     price: 9,
-    image: "/products/celsius-original-vodka.jpeg",
+    images: [
+      "/products/celsius-original-vodka-hero.jpg", // hero (nuova foto)
+      "/products/celsius-original-vodka.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Celsius Original Vodka, Bottiglia trasparente con etichetta blu, vodka limpida incolore.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1362,7 +1547,9 @@ export const WINES: Wine[] = [
     alcohol: 17,
     volume: "700ml",
     price: 18.5,
-    image: "/products/disaronno-velvet-liqueur.jpeg",
+    images: [
+      "/products/disaronno-velvet-liqueur.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Disaronno Velvet Liqueur di Disaronno, Bottiglia bianca ceramica con etichetta dorata, crema liquore.",
     tastingNotes: "Liquore dal profilo aromatico distintivo, ideale come digestivo o per la mixology creativa. Al palato è avvolgente e ben bilanciato.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1381,7 +1568,10 @@ export const WINES: Wine[] = [
     alcohol: 17,
     volume: "700ml",
     price: 15,
-    image: "/products/baileys-the-original-irish-cream.jpeg",
+    images: [
+      "/products/baileys-the-original-irish-cream-hero.jpg", // hero (nuova foto)
+      "/products/baileys-the-original-irish-cream.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Baileys The Original Irish Cream di Baileys, Bottiglia scura con etichetta rossa e paesaggio verde.",
     tastingNotes: "Un liquore dal carattere deciso, con note erbacee e agrumate. Il sorso è morbido e persistente, perfetto a fine pasto.",
     foodPairings: ["Dopo cena", "Mixology", "Caffè"],
@@ -1401,7 +1591,9 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 23.8,
     originalPrice: 24.8,
-    image: "/products/pernod-pastis-51.jpeg",
+    images: [
+      "/products/pernod-pastis-51.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Pastis 51 di Pernod, Bottiglia scura con etichetta bianca blu rossa, pastis.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1420,7 +1612,10 @@ export const WINES: Wine[] = [
     alcohol: 42,
     volume: "700ml",
     price: 46.9,
-    image: "/products/hacienda-calibio-ron.jpeg",
+    images: [
+      "/products/hacienda-calibio-ron-hero.jpg", // hero (nuova foto)
+      "/products/hacienda-calibio-ron.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Hacienda Calibio Ron di Hacienda Calibio, Bottiglia con rum ambrato dorato ed etichetta bianca minimale.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1439,7 +1634,9 @@ export const WINES: Wine[] = [
     alcohol: 40,
     volume: "700ml",
     price: 9.5,
-    image: "/products/gingino-london-dry-gin.jpeg",
+    images: [
+      "/products/gingino-london-dry-gin.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Gingino London Dry Gin di Gingino, Bottiglia trasparente con etichetta azzurra decorata, gin limpido.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1458,7 +1655,10 @@ export const WINES: Wine[] = [
     alcohol: 45,
     volume: "700ml",
     price: 39.5,
-    image: "/products/xibal-gin.jpeg",
+    images: [
+      "/products/xibal-gin-hero.jpg", // hero (nuova foto)
+      "/products/xibal-gin.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Xibal Gin di Xibal, Bottiglia nera opaca con maschera maya verde e glifi.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1477,7 +1677,9 @@ export const WINES: Wine[] = [
     alcohol: 40,
     volume: "700ml",
     price: 11,
-    image: "/products/harvest-day-original-vodka.jpeg",
+    images: [
+      "/products/harvest-day-original-vodka.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Harvest Day Original Vodka di Harvest Day, Bottiglia trasparente con etichetta nera dorata, vodka limpida.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1497,7 +1699,10 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 13.3,
     originalPrice: 15.2,
-    image: "/products/bickens-premium-pink-distilled-gin-grapefruit.jpeg",
+    images: [
+      "/products/bickens-premium-pink-distilled-gin-grapefruit-hero.jpg", // hero (nuova foto)
+      "/products/bickens-premium-pink-distilled-gin-grapefruit.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Bickens Premium Pink Distilled Gin Grapefruit di Bickens, Bottiglia con gin rosa pompelmo ed etichetta bianca elegante.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1516,7 +1721,10 @@ export const WINES: Wine[] = [
     volume: "750ml",
     price: 10.5,
     originalPrice: 12.5,
-    image: "/products/savian-anticaterra-prosecco-rose-extra-dry.jpeg",
+    images: [
+      "/products/savian-anticaterra-prosecco-rose-extra-dry-hero.jpg", // hero (nuova foto)
+      "/products/savian-anticaterra-prosecco-rose-extra-dry.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Savian Anticaterra Prosecco Rose Extra Dry di Savian, Bottiglia spumante con liquido rosato salmone ed etichetta rosa.",
     tastingNotes: "Bollicine eleganti dal perlage fine e persistente. Profumi di crosta di pane, frutta bianca e note floreali. Al palato è fresco, cremoso e dal finale sapido.",
     foodPairings: ["Crudi di mare", "Sushi", "Brindisi"],
@@ -1535,7 +1743,9 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "750ml",
     price: 13.3,
-    image: "/products/sensi-prosecco.jpeg",
+    images: [
+      "/products/sensi-prosecco.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Prosecco di Sensi, Bottiglia smerigliata bianca con capsula dorata, spumante.",
     tastingNotes: "Un calice dal perlage vivace e continuo, con aromi delicati di fiori e frutta a polpa bianca. In bocca è fresco, fragrante e invitante.",
     foodPairings: ["Aperitivo", "Antipasti raffinati", "Frutti di mare"],
@@ -1554,7 +1764,9 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "750ml",
     price: 9.9,
-    image: "/products/savian-anticaterra-prosecco-doc-brut.jpeg",
+    images: [
+      "/products/savian-anticaterra-prosecco-doc-brut.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Anticaterra Prosecco DOC Brut di Savian, Etichetta azzurra chiara con capsula argento, spumante.",
     tastingNotes: "Bollicine fini e briose, dai profumi puliti e floreali. Al gusto è scattante ed equilibrato, ideale per ogni brindisi.",
     foodPairings: ["Occasioni speciali", "Fritture di pesce", "Aperitivo"],
@@ -1573,7 +1785,9 @@ export const WINES: Wine[] = [
     alcohol: 45,
     volume: "700ml",
     price: 29.9,
-    image: "/products/beefeater-24-london-dry-gin.jpeg",
+    images: [
+      "/products/beefeater-24-london-dry-gin.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Beefeater 24 London Dry Gin di Beefeater, Bottiglia trasparente riflessi rossi, etichetta bianca, gin.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1593,7 +1807,9 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 24.9,
     originalPrice: 27.65,
-    image: "/products/silvio-carta-pig-skin-london-dry-gin-silver.jpeg",
+    images: [
+      "/products/silvio-carta-pig-skin-london-dry-gin-silver.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Pig Skin London Dry Gin Silver di Silvio Carta, Bottiglia trasparente, etichetta bianca con cinghiale, gin.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1612,7 +1828,9 @@ export const WINES: Wine[] = [
     alcohol: 43,
     volume: "700ml",
     price: 30,
-    image: "/products/pilloni-grifu-gin.jpeg",
+    images: [
+      "/products/pilloni-grifu-gin.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Grifu Gin di Pilloni, Bottiglia trasparente, etichetta blu a francobollo con grifone, gin.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1632,7 +1850,10 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 35.9,
     originalPrice: 39.9,
-    image: "/products/sandhera-rum-company-five-rivers-indian-spiced-white-rum.jpeg",
+    images: [
+      "/products/sandhera-rum-company-five-rivers-indian-spiced-white-rum-hero.jpg", // hero (nuova foto)
+      "/products/sandhera-rum-company-five-rivers-indian-spiced-white-rum.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Five Rivers Indian Spiced White Rum di Sandhera Rum Company, Bottiglia trasparente, etichetta azzurra con numero 5, rum.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1651,7 +1872,10 @@ export const WINES: Wine[] = [
     alcohol: 40,
     volume: "700ml",
     price: 36.9,
-    image: "/products/bartavelle-gin-fraise-de-provence-et-rhubarbe.jpeg",
+    images: [
+      "/products/bartavelle-gin-fraise-de-provence-et-rhubarbe-hero.jpg", // hero (nuova foto)
+      "/products/bartavelle-gin-fraise-de-provence-et-rhubarbe.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Bartavelle Gin Fraise de Provence et Rhubarbe di Bartavelle, Bottiglia liquido rosato, etichetta bianca fragole e rabarbaro, gin.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1669,7 +1893,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 13.8,
-    image: "/products/gordon-s-london-dry-gin.jpeg",
+    images: [
+      "/products/gordon-s-london-dry-gin-hero.jpg", // hero (nuova foto)
+      "/products/gordon-s-london-dry-gin.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Gordon's London Dry Gin di Gordon's, Bottiglia trasparente, etichetta bianca e gialla, gin.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1688,7 +1915,10 @@ export const WINES: Wine[] = [
     alcohol: 37.5,
     volume: "700ml",
     price: 15.5,
-    image: "/products/bacardi-carta-blanca-superior-white-rum.jpeg",
+    images: [
+      "/products/bacardi-carta-blanca-superior-white-rum-hero.jpg", // hero (nuova foto)
+      "/products/bacardi-carta-blanca-superior-white-rum.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Carta Blanca Superior White Rum di Bacardi, Bottiglia trasparente, etichetta bianca con pipistrello rosso, rum.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1707,7 +1937,10 @@ export const WINES: Wine[] = [
     alcohol: 35,
     volume: "700ml",
     price: 16.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/caffo-vecchio-amaro-del-capo.jpeg",
+    images: [
+      "/products/caffo-vecchio-amaro-del-capo-hero.jpg", // hero (nuova foto)
+      "/products/caffo-vecchio-amaro-del-capo.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Vecchio Amaro del Capo di Caffo, Bottiglia scura, etichetta con paesaggio costiero, amaro alle erbe.",
     tastingNotes: "Liquore dal profilo aromatico distintivo, ideale come digestivo o per la mixology creativa. Al palato è avvolgente e ben bilanciato.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1726,7 +1959,10 @@ export const WINES: Wine[] = [
     alcohol: 40,
     volume: "700ml",
     price: 16,
-    image: "/products/bombay-sapphire-london-dry-gin.jpeg",
+    images: [
+      "/products/bombay-sapphire-london-dry-gin-hero.jpg", // hero (nuova foto)
+      "/products/bombay-sapphire-london-dry-gin.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Bombay Sapphire London Dry Gin di Bombay Sapphire, Bottiglia blu con etichetta bianca, gin distillato inglese.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1744,7 +1980,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Passerina"],
     volume: "750ml",
     price: 12.9,
-    image: "/products/clementina-fabi-passerina-spumante-extra-brut.jpeg",
+    images: [
+      "/products/clementina-fabi-passerina-spumante-extra-brut-hero.jpg", // hero (nuova foto)
+      "/products/clementina-fabi-passerina-spumante-extra-brut.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Passerina Spumante Extra Brut di Clementina Fabi, Bottiglia scura con capsula dorata ed etichetta bianca.",
     tastingNotes: "Bollicine eleganti dal perlage fine e persistente. Profumi di crosta di pane, frutta bianca e note floreali. Al palato è fresco, cremoso e dal finale sapido.",
     foodPairings: ["Crudi di mare", "Sushi", "Brindisi"],
@@ -1764,7 +2003,9 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 39.9,
     originalPrice: 43.9,
-    image: "/products/bacardi-reserva-ocho-rare-gold-rum.jpeg",
+    images: [
+      "/products/bacardi-reserva-ocho-rare-gold-rum.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Bacardi Reserva Ocho Rare Gold Rum di Bacardi, Bottiglia trasparente con rum ambrato, sigillo rosso pipistrello.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1782,7 +2023,9 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 14.5,
-    image: "/products/g-b-pezziol-vov-liquore-all-uovo.jpeg",
+    images: [
+      "/products/g-b-pezziol-vov-liquore-all-uovo.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di VOV Liquore all'Uovo di G.B. Pezziol, Bottiglia bianca con etichetta blu e rossa colorata, zabaione.",
     tastingNotes: "Un liquore dal carattere deciso, con note erbacee e agrumate. Il sorso è morbido e persistente, perfetto a fine pasto.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1800,7 +2043,9 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "750ml",
     price: 8,
-    image: "/products/peruzzet-prosecco-extra-dry.jpeg",
+    images: [
+      "/products/peruzzet-prosecco-extra-dry.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Prosecco Extra Dry di Peruzzet, Bottiglia scura con capsula dorata ed etichetta bianca prosecco.",
     tastingNotes: "Spuma cremosa e perlage elegante, con note di lievito e frutta bianca. Il sorso è fresco, teso e di piacevole persistenza.",
     foodPairings: ["Crudi di mare", "Sushi", "Brindisi"],
@@ -1818,7 +2063,10 @@ export const WINES: Wine[] = [
     grapeVarieties: ["Moscato"],
     volume: "750ml",
     price: 7.9,
-    image: "/products/citra-moscato-spumante-dolce.jpeg",
+    images: [
+      "/products/citra-moscato-spumante-dolce-hero.jpg", // hero (nuova foto)
+      "/products/citra-moscato-spumante-dolce.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Moscato Spumante Dolce di Citra, Bottiglia verde con etichetta bianca e decoro floreale dorato.",
     tastingNotes: "Bollicine eleganti dal perlage fine e persistente. Profumi di crosta di pane, frutta bianca e note floreali. Al palato è fresco, cremoso e dal finale sapido.",
     foodPairings: ["Aperitivo", "Antipasti raffinati", "Frutti di mare"],
@@ -1836,7 +2084,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 11.2,
-    image: "/products/all-seasons-oasis-all-seasons-sir-e-taj-reserve-spirit.jpeg",
+    images: [
+      "/products/all-seasons-oasis-all-seasons-sir-e-taj-reserve-spirit-hero.jpg", // hero (nuova foto)
+      "/products/all-seasons-oasis-all-seasons-sir-e-taj-reserve-spirit.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di All Seasons Sir-E-Taj Reserve Spirit di All Seasons (Oasis), Astuccio cilindrico nero con scritte bianche e dorate, whisky.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1854,7 +2105,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 16.5,
-    image: "/products/magic-moments-remix-orange-flavoured-vodka.jpeg",
+    images: [
+      "/products/magic-moments-remix-orange-flavoured-vodka-hero.jpg", // hero (nuova foto)
+      "/products/magic-moments-remix-orange-flavoured-vodka.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Magic Moments Remix Orange Flavoured Vodka di Magic Moments, Bottiglia smerigliata trasparente con silhouette arancioni, vodka.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1872,7 +2126,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 19.5,
-    image: "/products/seagram-s-blenders-pride-ultra-premium.jpeg",
+    images: [
+      "/products/seagram-s-blenders-pride-ultra-premium-hero.jpg", // hero (nuova foto)
+      "/products/seagram-s-blenders-pride-ultra-premium.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Seagram's Blenders Pride Ultra Premium di Seagram's, Bottiglia con liquido ambrato ed etichetta nera e blu, whisky.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -1890,7 +2147,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 16.5,
-    image: "/products/magic-moments-premium-grain-vodka.jpeg",
+    images: [
+      "/products/magic-moments-premium-grain-vodka-hero.jpg", // hero (nuova foto)
+      "/products/magic-moments-premium-grain-vodka.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Magic Moments Premium Grain Vodka di Magic Moments, Bottiglia smerigliata trasparente con etichetta blu e bianca, vodka.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1909,7 +2169,10 @@ export const WINES: Wine[] = [
     alcohol: 40,
     volume: "700ml",
     price: 17.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/aristocrat-premium.jpeg",
+    images: [
+      "/products/aristocrat-premium-hero.jpg", // hero (nuova foto)
+      "/products/aristocrat-premium.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Aristocrat Premium, etichetta rossa e dorata, liquido ambrato, stemma araldico.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -1929,7 +2192,9 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 34.4,
     originalPrice: 36.4,
-    image: "/products/drambuie.jpeg",
+    images: [
+      "/products/drambuie.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Drambuie, etichetta dorata e rossa, liquore scuro, bottiglia scura.",
     tastingNotes: "Liquore dal profilo aromatico distintivo, ideale come digestivo o per la mixology creativa. Al palato è avvolgente e ben bilanciato.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -1948,7 +2213,10 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 16.9,
     originalPrice: 19.9,
-    image: "/products/vecchia-romagna-classica.jpeg",
+    images: [
+      "/products/vecchia-romagna-classica-hero.jpg", // hero (nuova foto)
+      "/products/vecchia-romagna-classica.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Vecchia Romagna Classica di Vecchia Romagna, bottiglia ovale, liquido ambrato ramato, etichetta bianca ovale.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -1967,7 +2235,10 @@ export const WINES: Wine[] = [
     volume: "750ml",
     price: 13.5,
     originalPrice: 15, // struck price from tag ("con sconto")
-    image: "/products/savian-prosecco-brut.jpeg",
+    images: [
+      "/products/savian-prosecco-brut-hero.jpg", // hero (nuova foto)
+      "/products/savian-prosecco-brut.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Savian Prosecco Brut di Savian, bottiglia scura spumante, etichetta bianca minimale, capsula scura biologico.",
     tastingNotes: "Bollicine eleganti dal perlage fine e persistente. Profumi di crosta di pane, frutta bianca e note floreali. Al palato è fresco, cremoso e dal finale sapido.",
     foodPairings: ["Crudi di mare", "Sushi", "Brindisi"],
@@ -1986,7 +2257,9 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 15.8,
     originalPrice: 16.8,
-    image: "/products/malibu-original.jpeg",
+    images: [
+      "/products/malibu-original.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Malibu Original, bottiglia bianca opaca, logo palme e tramonto colorato.",
     tastingNotes: "Liquore dal profilo aromatico distintivo, ideale come digestivo o per la mixology creativa. Al palato è avvolgente e ben bilanciato.",
     foodPairings: ["Dopo cena", "Mixology", "Caffè"],
@@ -2005,7 +2278,10 @@ export const WINES: Wine[] = [
     volume: "700ml",
     price: 17.9,
     originalPrice: 20.9,
-    image: "/products/mohan-meakin-old-monk-coffee-xo.jpeg",
+    images: [
+      "/products/mohan-meakin-old-monk-coffee-xo-hero.jpg", // hero (nuova foto)
+      "/products/mohan-meakin-old-monk-coffee-xo.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Old Monk Coffee XO di Mohan Meakin, bottiglia scura, etichetta marrone e bianca, tappo marrone.",
     tastingNotes: "Un liquore dal carattere deciso, con note erbacee e agrumate. Il sorso è morbido e persistente, perfetto a fine pasto.",
     foodPairings: ["Digestivo", "Cocktail", "Fine pasto"],
@@ -2023,7 +2299,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 17.9, // PROVISIONAL — price tag not visible in client photo; confirm before go-live
-    image: "/products/mohan-meakin-old-monk-20-amber.jpeg",
+    images: [
+      "/products/mohan-meakin-old-monk-20-amber-hero.jpg", // hero (nuova foto)
+      "/products/mohan-meakin-old-monk-20-amber.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Old Monk 20 Amber di Mohan Meakin, bottiglia ambrata a nido d'ape, etichetta bordeaux, astuccio rosso.",
     tastingNotes: "Distillato dal bouquet aromatico e profondo. Il sorso è avvolgente e vellutato, con una chiusura calda ed elegante.",
     foodPairings: ["Fine pasto", "Degustazione", "Pasticceria secca"],
@@ -2041,7 +2320,9 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 16.5,
-    image: "/products/magic-moments-remix-green-apple.jpeg",
+    images: [
+      "/products/magic-moments-remix-green-apple.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Magic Moments Remix Green Apple, bottiglia smerigliata verde chiaro, grafica cavalli e polo.",
     tastingNotes: "Distillato di grande carattere, dai profumi complessi e avvolgenti. Al palato è rotondo e persistente, con un finale lungo ed elegante.",
     foodPairings: ["Meditazione", "Fine pasto", "Cioccolato fondente"],
@@ -2059,7 +2340,10 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "700ml",
     price: 10.9,
-    image: "/products/seagram-s-royal-stag-blended-spirit.jpeg",
+    images: [
+      "/products/seagram-s-royal-stag-blended-spirit-hero.jpg", // hero (nuova foto)
+      "/products/seagram-s-royal-stag-blended-spirit.jpeg", // foto originale precedente
+    ],
     alt: "Bottiglia di Royal Stag Blended Spirit di Seagram's, bottiglia squadrata, liquido ambrato, etichetta crema con cervo.",
     tastingNotes: "Un distillato dal profilo intenso e raffinato, con sentori caldi e speziati. In bocca risulta morbido, pieno e di lunga persistenza.",
     foodPairings: ["Sigaro", "Dopo cena", "Cioccolato"],
@@ -2077,12 +2361,71 @@ export const WINES: Wine[] = [
     grapeVarieties: [],
     volume: "750ml",
     price: 11,
-    image: "/products/mionetto-valdobbiadene-prosecco-superiore.jpeg",
+    images: [
+      "/products/mionetto-valdobbiadene-prosecco-superiore.jpeg", // sola immagine
+    ],
     alt: "Bottiglia di Mionetto Valdobbiadene Prosecco Superiore di Mionetto, bottiglia scura spumante, etichetta nera, gabbietta dorata.",
     tastingNotes: "Bollicine fini e briose, dai profumi puliti e floreali. Al gusto è scattante ed equilibrato, ideale per ogni brindisi.",
     foodPairings: ["Crudi di mare", "Sushi", "Brindisi"],
     inStock: true,
     badges: [],
+  },
+  {
+    id: "disaronno-originale",
+    slug: "disaronno-originale",
+    name: "Disaronno Originale",
+    producer: "Illva Saronno",
+    category: "liquori",
+    region: "",
+    denomination: "",
+    grapeVarieties: [],
+    volume: "700ml",
+    price: 0, // PLACEHOLDER — prezzo da confermare col cliente
+    images: ["/products/disaronno-originale.jpg"],
+    alt: "Bottiglia di Disaronno Originale, liquore, in primo piano su fondo neutro.",
+    tastingNotes: "PLACEHOLDER — descrizione da fornire dal cliente.",
+    foodPairings: [],
+    inStock: true,
+    badges: ["Novità"],
+    needsClientReview: true,
+  },
+  {
+    id: "mohan-meakin-old-monk-7-years",
+    slug: "mohan-meakin-old-monk-7-years",
+    name: "Old Monk Rum 7 Years",
+    producer: "Mohan Meakin",
+    category: "distillati",
+    region: "",
+    denomination: "",
+    grapeVarieties: [],
+    volume: "700ml",
+    price: 0, // PLACEHOLDER — prezzo da confermare col cliente
+    images: ["/products/mohan-meakin-old-monk-7-years.jpg"],
+    alt: "Bottiglia di Old Monk Rum 7 Years, distillato, in primo piano su fondo neutro.",
+    tastingNotes: "PLACEHOLDER — descrizione da fornire dal cliente.",
+    foodPairings: [],
+    inStock: true,
+    badges: ["Novità"],
+    needsClientReview: true,
+  },
+  {
+    id: "savian-anticaterra-prosecco-extra-dry",
+    slug: "savian-anticaterra-prosecco-extra-dry",
+    name: "Savian Anticaterra Prosecco Extra Dry",
+    producer: "Savian",
+    category: "bollicine",
+    region: "",
+    denomination: "",
+    grapeVarieties: [],
+    volume: "750ml",
+    price: 0, // PLACEHOLDER — prezzo da confermare col cliente
+    images: ["/products/savian-anticaterra-prosecco-extra-dry.jpg"],
+    alt: "Bottiglia di Savian Anticaterra Prosecco Extra Dry, spumante, in primo piano su fondo neutro.",
+    tastingNotes: "PLACEHOLDER — descrizione da fornire dal cliente.",
+    foodPairings: [],
+    inStock: true,
+    badges: ["Novità"],
+    needsClientReview: true,
   },
 ];
 

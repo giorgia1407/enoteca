@@ -134,7 +134,7 @@ export function CartDrawer() {
                           className="relative h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-cream-deep"
                         >
                           <BottleImage
-                            src={l.item.image}
+                            src={l.item.images[0]}
                             alt={l.item.name}
                             sizes="64px"
                             className="object-cover"
